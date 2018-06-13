@@ -1,0 +1,7 @@
+# I think hash means comment
+# So I'm gonna try to make a .gitignore
+# Here goes
+#######################################
+*.ini
+*.lnk
+WinPython Command Prompt.exe
