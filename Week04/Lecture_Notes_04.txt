@@ -1,0 +1,139 @@
+# Week 4 Lecture 1
+# 2.1 Expressions
+
+################################################################################
+
+Constants: Fixed values such as numbers, letter, and strings
+  String constants use single quotes (') or double quotes (").
+
+
+Reserved Words : These are words that Python uses for itself so you can't use it for a variable name.
+
+
+Variables : A named place in memory where you can store data and later retrieve data.
+  The programmer gets to pick the name of the variable, but cannot use the aforementioned "reserved words."
+  You can assign using the equal sign ("=") operator.
+  Naming conventions:
+    Must start with letters or underscore
+      Not Recommended to start with an underscore due to Python having some of its own uses of underscores.
+    Must consist of letters, numbers, and/or underscores.
+    Case Sensitive
+      Not recommended to use variables with same name but different cases (e.g. spam, Spam, SPAM, and SpAm would all be different variables but confusing).
+
+################################################################################
+
+# Week 4 Lecture 2
+# 2.2 Expressions Part 2
+
+################################################################################
+
+Numeric Expressions
+  +   Addition
+  -   Subtraction
+  *   Multiplication
+  /   Division
+  **  Power
+  %   Remainder (aka Modulo or Modulus)
+
+
+Numeric Expression Hierarchy
+  1st   P   Parentheses
+  2nd   E   Exponentiation
+  3rd   M   Multiplication, Division, and Remainder (all equal)
+  4th   A   Addition and Subtration (all equal)
+  Left-to-Right   When all else is equal solve left-to-Right
+
+  Example:
+    x = 1 + 2 ** 3 / 4 * 5
+    x = 1 + 8      / 4 * 5
+    x = 1 + 2          * 5
+    x = 1 + 10
+    x = 1
+
+
+Type
+  Variables, literals, and constants have types.
+  Python knows the difference between strings and integers.
+  You can perform some operations on same type variables/constants but not differing types.
+
+    Example:
+      >>> x = 1 + 1
+      >>> print(x)
+      1
+      >>>
+      >>> y = 'hello' + ' there'
+      >>> print(y)
+      hello there
+      >>>
+      >>> z = 'hello' + 1
+      Traceback (most recent call last): File "<stdin>", line 1, in <module>TypeError: Can't convert 'int' object to str implicitly
+
+  Python has a function "type" that will tell you what type a variable is.
+
+    Example:
+      >>> x = 1
+      >>> y = 'hello'
+      >>> type(x)
+      <class'int'>
+      >>> type(1)
+      <class'int'>
+      >>> type(y)
+      <class'str'>
+      >>> type('hello')
+      <class'str'>
+      >>> type('y')
+      <class'str'>
+
+  Numbers are segregated into multiple types.
+  The main two are Integers <class'int'> (i.e. no decimal) and Floating Point Numbers <class'float'> (i.e. with a decimal).
+  For some reason you're not supposed to use floating point for money???
+
+
+Type Conversions
+  You can force Python to turn an integer into a float with the "float()" function.
+  Python will also implicitly (i.e automatically) convert an Integer to a Float if you write an expression that operates on both a Float and an Integer (e.g. 10.0 * 9; 9 gets converted to a Float during the computation).
+  Integer division always results in a Float to prevent the decimal values from being truncated.
+    This was not true of Python 2.x.  It would truncate such that x = 9/2 = 4.
+  You can convert numerical values stored as a string (e.g. sval = '123') to a numerical value with Int() as well.
+    Example:
+      >>> sval = '123'
+      >>> type(sval)
+      <class'str'>
+      >>> ival = int(sval)
+      >>> type(ival)
+      <class'int'>
+
+
+User Input
+  We can make Python pause the execution of the code and read data from the user with the Input() function.
+  The Input() function returns a string, even if the user enters numerical values.
+    Example:
+      Program:
+        name = input('Who are you?')
+        print('Welcome', name)
+      Output:
+        Who are you?
+        Adam  #<---------This line is user input
+        Welcome Adam
+      Note that using the comma in the Print() command adds a space between the parameters.
+
+################################################################################
+
+# Week 4 Lecture 3
+# Expressions Part 3
+
+################################################################################
+
+
+Documentation
+  Use the Pound/Hash symbol "#" to make the rest of the line after it a comment that will be ignored by Python.
+  Comments will help you organize your work and remember how the code works when you come back to it at some point in the future.
+
+Converting User Input
+  If you ask for numerical input from the user via the Input() function, you must convert the Type first.
+
+    Example:
+      # Convert elevator floors from wrong to Merican
+      inp = input("European Floor?")
+      USF = int(inp) + 1
+      print("US Floor is", inp)
