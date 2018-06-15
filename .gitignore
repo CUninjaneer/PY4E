@@ -5,3 +5,4 @@
 *.ini
 *.lnk
 WinPython Command Prompt.exe
+*.DS_Store
