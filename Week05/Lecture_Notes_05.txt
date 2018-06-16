@@ -1,0 +1,80 @@
+# Week 5
+# Lecture 1
+
+# 3.1 - Conditional Statements
+
+################################################################################
+
+
+Conditional Steps
+
+    Ask a question and perform different bits of code depending on the answer.
+    Each set of code that is dependent on a conditional statement is indented.
+
+
+Comparison/Logical Operators
+
+    <   Less Than
+    <=  Less Than or Equal To
+    ==  Equal To
+    >=  Greater Than of Equal To
+    >   Greater Than
+    !=  Not Equal
+
+    The above are used in "Boolean Expressions" and they evaluate to True of False (1 or 0).
+    They do not modify the constants or variables they operate on.
+    Note that "Equal To" for a Boolean is a double Equal Sign "==" whereas the assignment operator for setting the value of a variable is a sing Equal Sign "=".
+    Trivia: ! is also know as "Bang" in addition to "Exclamation Point"
+
+
+Conditional Code Blocks
+
+    The recommended indent is 4 SPACES.
+    You must use spaces OR tabs (as in the tab character not the key), but do not change back and forth  or you may get errors.
+    For that reason it is recommended to just use spaces and avoid tabs.
+    Atom.io will automatically use spaces when you press the tab key for files with a ".py" extension when you have the auto tab setting on.  That way you can use the tab key and get good results.  You can also set the number of spaces for the tab key.
+    You can put a conditional statement within another conditional step.  You indicate the nested block of code by indenting another level in.
+
+
+Conditional Functions - Two Way
+
+    if cond :
+        stuff
+    else
+        other stuff
+
+################################################################################
+
+# Week 5
+# Lecture 2
+
+#3.2 - More Conditional Statements
+
+################################################################################
+
+Conditional Functions - Multiway
+
+    The else-if function "elif"
+
+        if cond 1 :
+            first stuff
+        elif cond 2 :
+            alternative stuff
+        ...
+        elif cond n:
+            nth level stuff
+        else :
+            yet other stuff
+
+    Think of the above different conditionals as 1 "block".
+    Since they are setup as alternative to each other, only 1 will run.
+    In fact, once 1 conditional runs, it will jump to end of the "block" ignoring the rest once one evaluates to true and runs the dependent code.
+
+
+Try and Except Structure
+
+    Surround a dangerous section of code with "try" and "except"
+    If the code in the "try" works, then the "except" is skipped.
+    If the code in the "try" fails, then it jumps to the "except" section.
+    This is to avoid tracebacks.
+    Minimize the amount of code in the try.
