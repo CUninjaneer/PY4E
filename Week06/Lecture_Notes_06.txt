@@ -1,0 +1,101 @@
+# Week 6
+# Lecture 1
+
+# 4.1 - Using Functions
+
+################################################################################
+
+
+Functions
+
+    Functions are pieces of code that we store and reuse multiple times.
+    Create a function using the "def" keyword.
+
+        Example:
+
+            def thing() :
+                print('Hello')
+                print('Fun')
+            thing()
+            print('Zip')
+            thing()
+
+            Output:
+
+                Hello
+                Fun
+                Zip
+                Hello
+                Fun
+
+    In the example above we were able to call the function "thing()" to print two lies of output whenever we needed them.
+    When you define the function in the "def" command, it does not execute the code.  It is only place in memory, and there is no output.
+    To get the output, you have to later call/invoke the function.
+
+
+################################################################################
+
+# Week 6
+# Lecture 2
+
+# 4.2 Building Functions
+
+################################################################################
+
+
+Arguments & Parameters
+
+    A parameter is a variable which is used in the function definition
+    It is a "handle" or "alias" that allows the function to access the arguments for a particular function.
+
+        Example:
+
+            def greet(lang) :
+                if lang == 'es' :
+                    print('Hola')
+                elif lang == 'fr' :
+                    print('Bonjour')
+                else :
+                    print('Hello')
+
+        Output:
+
+            >>> greet('en')
+            Hello
+            >>> greet('es')
+            Hola
+            >>> greet('fr')
+            Bonjour
+            >>>
+
+    Parameter -> Definition
+    Argument  -> Function Call
+
+
+Return Values
+
+    The "return" keyword is used to specify what the output of a function is.
+    It also stops the function.
+
+        Example:
+
+        def greet(lang) :
+            if lang == 'es' :
+                print('Hola')
+            elif lang == 'fr' :
+                print('Bonjour')
+            else :
+                print('Hello')
+
+        Output:
+
+            >>> print(greet('en'), "Glenn")
+            Hello Glenn
+            >>> print(greet('es'), "Sally")
+            Hola Sally
+            >>> print(greet('fr'), "Michael")
+            Bonjour Michael
+
+    The return value replaces the function call within whatever code being executed.
+    A function that doesn't return a value is a "non-fruitful" function.
+    A function that does return a value is a "fruitful" function.
