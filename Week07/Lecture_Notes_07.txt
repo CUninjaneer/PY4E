@@ -1,0 +1,175 @@
+# Week 7
+# Lecture 1
+
+# 5.1 - Loops and Iteration
+
+################################################################################
+
+
+Iteration Variables
+
+    Loops have "iteration variables" that change each time through a loop.
+    Often the "iteration variables" go through a series of numbers.
+    An important feature of your loop is to change the "iteration variable" during each iteration so that you don't get stuck in an infinite loop.
+
+
+Zero Trip Loops
+
+    A "Zero Trip Loop" is a loop that will not run at all because the condition starts out false.
+
+
+Breaking Out of a Loop
+
+    You can use the "break" statement to exit a loop.
+
+        Example:
+
+            Code:
+            while True :
+                line = input('>')
+                if line == 'done' :
+                    break
+                print(line)
+            print('Done!')
+
+            Output:
+                > hello there
+                hello there
+                > finished
+                finished
+                > done
+                Done!
+
+    In the above example, the while loop is infinite.  There is nothing to change "True" to "False".
+    The loop will only exit if you get to the code in the "if" statement within the loop that uses the "break" statement.  So the user must type "done".
+
+
+Finishing an Iteration with Continue
+
+    The "continue" statement ends the current iteration of a loop without reading any further code within the loop and jumps back up to the beginning of the loop.
+
+    Example:
+
+        Code:
+        while True :
+            line = input('>')
+            if line[0] == '#' :
+                continue
+            if line == 'done' :
+                break
+            print(line)
+        print('Done!')
+
+        Output:
+            > hello there
+            hello there
+            > # don't print this
+            > print this!
+            print this!
+            > done
+            Done!
+
+    In the above example, you can see that the continue caused the loop to not print the input because that iteration of the loop never got to that point. Including the # at the beginning of the input triggered the "if" block with the "continue" statement.
+
+
+################################################################################
+
+# Week 7
+# Lecture 2
+
+# 5.2 - Definite Loops
+
+################################################################################
+
+
+A Simple Definite Loop
+
+    In a definite loop, the iteration variable is explicitly in the definition of the loop.
+    It has a certain set of values that it will cycle through, and then it is done.
+
+        Example:
+
+            Code:
+            for i in [5, 4, 3, 2, 1] :
+                print(i)
+            print('Blastoff!')
+
+            Output:
+                5
+                4
+                3
+                2
+                1
+                Blastoff!
+
+    In the example, "i" is the iteration variable.
+    The list [5, 4, 3, 2, 1] is a "collection" with all the values "i" will take on during the loop.
+    Note that you do not have to have statement to explicitly increment the iteration variable.  That is handled by the "for" loop and the "in" keyword.  The for loop will automatically increment through each value in the collection.
+
+A Definite Loop with Strings
+
+    Code:
+        friends = ['Joseph', 'Glenn', 'Sally']
+        for friend in friends :
+            print('Happy New Year:', friend)
+        print('Done!')
+
+    Output:
+        Happy New Year: Joseph
+        Happy New Year: Glenn
+        Happy New Year: Sally
+        Done!
+
+    In the same fashion as before, the iteration variable "friend" will take on each value in the collection "friends" in turn for each iteration of the loop.
+
+
+################################################################################
+
+# Week 7
+# Lecture 3
+
+# 5.3 - Finding the Largest Value
+
+################################################################################
+
+
+Making Smart Loops
+
+    The trick is knowing something about the whole loop when you are stuck writing code that only sees one entry at a time.
+    So you will look at each value in your data set and do something to it.
+    Then at the end, you will know which of those values is the largest value.
+    Set some variables to initial values.
+    Do something to each value in the data set.
+    Then look at the final values of your variables to know something.
+
+
+Finding the Largest Value
+
+    Code:
+        largest_so_far = -1
+        print('Before', largest_so_far)
+        for the_num in [9, 41, 12, 3, 74, 15]
+            if the_num > largest_so_far :
+                largest_so_far = the_num
+            print(largest_so_far, the_num)
+        print('After', largest_so_far)
+
+    Output:
+        Before -1
+        9 9
+        41 41
+        41 12
+        41 3
+        74 74
+        74 15
+        After 74
+
+
+################################################################################
+
+# Week 7
+# Lecture 4
+
+# 5.4 - Loop Idioms
+
+################################################################################
