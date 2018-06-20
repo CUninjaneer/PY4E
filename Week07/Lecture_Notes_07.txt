@@ -173,3 +173,78 @@ Finding the Largest Value
 # 5.4 - Loop Idioms
 
 ################################################################################
+
+
+Counting in a Loop
+
+    Code:
+        zork = 0
+        print('Before', zork)
+        for thing in [9, 41, 12, 3, 74, 15]
+            zork = zork + 1
+            print('zork', thing)
+        print('After', zork)
+
+    Output:
+        Before 0
+        1 9
+        2 41
+        3 12
+        4 3
+        5 74
+        6 15
+        After 6
+
+    To count, we initialize a "counter variable" before the loop.
+    Then we increment it by adding 1 to it during each iteration of the loop.
+    Finally, at the end, we call it to find the count.
+
+
+Summing in a Loop
+
+    Code:
+        zork = 0
+        print('Before', zork)
+        for thing in [9, 41, 12, 3, 74, 15]
+            zork = zork + thing
+            print('zork', thing)
+        print('After', zork)
+
+    Output:
+        Before 0
+        9 9
+        50 41
+        62 12
+        65 3
+        139 74
+        154 15
+        After 154
+
+    In a very similar manner to counting, we can sum the items in a collection as well.
+    The only difference in the code is that instead of using "zork" as a counter variable, it is instead used as a running total by adding the element of the collection to it instead of adding 1.
+
+
+Finding the Average in a Loop
+
+    Code:
+        count = 0
+        sum = 0
+        print('Before', count, sum)
+        for value in [9, 41, 12, 3, 74, 15]
+            count = count + 1
+            sum = sum + value
+            print(count, sum, value)
+        print('After', count,sum, sum/count)
+
+    Output:
+        Before 0 0
+        1 9 9
+        2 50 41
+        3 62 12
+        4 65 3
+        5 139 74
+        6 154 15
+        After 6 154 25
+
+    By combining the methods and tracking both count and sum in the loop, we can calculate the average.
+    # Time 4:26
