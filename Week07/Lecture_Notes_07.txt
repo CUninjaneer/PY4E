@@ -244,7 +244,82 @@ Finding the Average in a Loop
         4 65 3
         5 139 74
         6 154 15
-        After 6 154 25
+        After 6 154 25.66667
 
     By combining the methods and tracking both count and sum in the loop, we can calculate the average.
-    # Time 4:26
+
+
+Filtering in a Loops
+
+    Use an if statement in a loop to grab only values from the collection that meet some criteria.
+
+
+Search Using a Boolean Variable
+
+    A "Boolean" variable is a variable that has a value of either "True" or "False".
+    You can use if for something like telling you if some criteria was ever met during a loop.
+
+    Example:
+        Code:
+            found = False
+            print('Before', found)
+            for value in [9, 41, 12, 3, 74, 15]
+                if value == 3:
+                    found = True
+                print(found, value)
+            print('After', found)
+        Output:
+            Before False
+            False 9
+            False 41
+            False 12
+            True 3
+            True 74
+            True 15
+            After True
+
+    Since the "found" variable comes back True, you know that the value of 3 occurred at least once in the collection, perhaps more but you don't know exactly how many.
+    If you want, to make it faster, you can put a "break" statement in the if statement as well so that the loop will exit after the first result is found.
+
+
+Finding the Smallest value
+
+    It works largely the same as finding the largest except that you use a less than conditional statement.
+    It is important to initialize the counter variable to a value that won't be smaller than all values in your collection
+    See the next section
+
+
+None Type Variable
+
+    smallest = None
+    largest = None
+
+
+How to Use the None Type Variables
+
+    Code:
+        smallest = None
+        print('Before')
+        for value in [9, 41, 12, 3, 74, 15]
+            if smallest is None
+                smallest = value
+            elif value < smallest :
+                smallest = value
+            print(smallest, value)
+        print('After', smallest)
+
+    Output:
+        Before
+        9 9
+        9 41
+        9 12
+        3 3
+        3 74
+        3 15
+        After 3
+
+    None is considered a flag value.
+    It is only there to signify that the variable is in an initial state without any useful information yet contained in it.
+    Note the use of the "is" logical operator.  There is also an "isnot"logical operator.
+    These logical operators are used in specific situations, usually when working with None type or Boolean type variables.
+    You don't want to use them instead of == or != because they are stronger equalities.
