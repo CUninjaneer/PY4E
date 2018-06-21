@@ -1,0 +1,316 @@
+# Week 1
+# Lecture 1
+
+# 6.1 - Strings
+
+################################################################################
+
+
+String Data Type
+
+    A string is a series of characters.
+    A string literal uses single or double quotes.
+    For strings, the "+" operator means "concatenate."
+    When a string contains numbers, it is still a string.
+    We can convert a string containing a numerical value into a number using int() of float().
+
+
+Reading and Converting
+
+    We prefer to read data in using strings and then parse and convert the data as needed.
+    This gives us more control over error situations and/or bad user input.
+    User input gathered using the input() function will be stored as a string.
+    When user input for numerical values is required, it will be necessary to convert the string gathered by input() into a number using int() or float().
+
+
+Looking Inside a String
+
+    We can get at any single character in a string using an index operator specified using square brackets [].
+    The index value must be an integer, and the first element is [0] not [1].
+    The index can be an expression that is computed.
+
+        Example:
+        >>> fruit = 'banana'
+        >>> letter = fruit[0]
+        >>> print(letter)
+        b
+        >>> x = 3
+        >>> w = fruit[x-1]
+        >>> print(w)
+        n
+
+    You will get an error if you attempt to index beyond the end of a string.
+
+String Functions
+
+    The len() function obtains a property of a string, the length or number of characters.
+
+        Example:
+        >>> fruit = 'banana'
+        >>> x = len(fruit)
+        >>> print(x)
+        6
+
+Looping Through strings
+
+    Using a while statement, an iteration variable, and the len function, we can construct a loop to look at the each character of a string individually.
+
+        Example:
+        Code:
+            fruit = 'banana'
+            index = 0
+            while index < len(fruit) :
+                letter = fruit[index]
+                print(index, letter)
+                index = index + 1
+
+        Output:
+            0 b
+            1 a
+            2 n
+            3 a
+            4 n
+            5 a
+
+    A definite loop using a for statement is much more elegant.
+
+        Example:
+        Code:
+            fruit = 'banana'
+            for letter in fruit :
+                print(letter)
+
+        Output:
+            b
+            a
+            n
+            a
+            n
+            a
+
+
+Looping and Counting
+
+    You can use if statements to filter for different characters and then use counter variables to get counts of different letters and the such.
+
+
+Looking Deeper into "in"
+
+    The iteration variable iterates through the sequence (ordered set)
+    The block (bodY) of code is executed once for each value in the sequence.
+    The iteration variable moves through all of the values "in" the sequence.
+
+
+Slicing Strings
+
+    We can look at any continuous section of a string using the index operator brackets with the colon operator (string[i:j]).
+    The colon operator means characters i *up to but not including* j.
+    If the second number is beyond the end of the string, it stops at the end.
+
+        Example:
+        >>> s = 'Monty Python'
+        >>> print(s[0:4])
+        Mont
+        >>> print(s[6:7])
+        P
+        >>> print(s[6:20])
+        Python
+
+    If we leave off the first of last number when using the colon operator, it is assumed to be the beginning or end of the string, respectively.
+
+        Example:
+        >>> s = 'Monty Python'
+        >>> print(s[:2])
+        Mo
+        >>> print(s[8:])
+        thon
+        >>> print(s[:])
+        Monty Python
+
+
+################################################################################
+
+# Lecture 2
+# 6.2 - Manipulating Strings
+
+################################################################################
+
+
+String Concatenation
+
+    The + operator is used to concatenate strings.
+
+        Example:
+        >>> a = 'Hello'
+        >>> b = a + 'There'
+        >>> print(b)
+        HelloThere
+        >>> c = a + ' ' + 'There'
+        >>> print(c)
+        Hello There
+        >>>
+
+Using "in" as a Logical Operator
+
+    The "in" keyword can also be used to check if one string is contained within another string.
+    The "in" expression is a logical expression that returns "True" or "False".
+    It can also be used in an if statement.
+
+        Example:
+        >>> fruit = 'banana'
+        >>> 'n' in fruit
+        True
+        >>> 'm' in fruit
+        False
+        >>> 'nan' in fruit
+        True
+        >>> if 'a' in fruit : print('Found it!')
+        Found it!
+
+
+String Comparison
+
+    There's comparison using > and < that seems pretty useless except for maybe alphabetizing a collection of strings.
+
+
+String Library
+
+    Python has a number of string functions which are in the string library.
+    These functions are already built into every string.
+    We invoke them by appending the function to the string variable or literal.
+    These functions do not modify the original string, instead they return a new string that has been altered.
+
+    Example:
+    >>> greet = 'Hello Bob'
+    >>> zap = greet.lower()
+    >>> print(zap)
+    hello bob
+    >>> print(greet)
+    Hello Bob
+    >>> print('Hi There'.lower())
+    hi there
+    >>>
+
+
+String Methods
+
+    Strings are examples of Python "objects".
+    An object contains both data and methods.
+    Python has a function dir() that lists the methods available for an object.
+
+        Example:
+            >>> stuff = 'Hello world'
+            >>> type(stuff)
+            <class 'str'>
+            >>> dir(stuff)
+            ['capitalize', 'casefold', 'center', 'count', 'encode',
+            'endswith', 'expandtabs', 'find', 'format', 'format_map',
+            'index', 'isalnum', 'isalpha', 'isdecimal', 'isdigit',
+            'isidentifier', 'islower', 'isnumeric', 'isprintable',
+            'isspace', 'istitle', 'isupper', 'join', 'ljust', 'lower',
+            'lstrip', 'maketrans', 'partition', 'replace', 'rfind',
+            'rindex', 'rjust', 'rpartition', 'rsplit', 'rstrip',
+            'split', 'splitlines', 'startswith', 'strip', 'swapcase',
+            'title', 'translate', 'upper', 'zfill']
+
+    See info on methods at https://docs.python.org/3.5/library/stdtypes.html#string-methods
+
+    You can also get more information on a method using the help() function.
+
+        Example:
+            >>> help(str.capitalize)
+            Help on method_descriptor:
+
+            capitalize(...)
+            S.capitalize() -> str
+
+            Return a capitalized version of S, i.e. make the first character
+            have upper case and the rest lower case.
+
+
+Searching a String
+
+    We use the find() function to search for a substring within another string.
+    find() finds the first occurence of the substring and returns the index where it starts.
+    If the substring is not found, then find() returns -1.
+
+        Example:
+        >>> fruit = banana
+        >>> pos = fruit.find('na')
+        >>> print(pos)
+        2
+        >>> aa = fruit.find('z')
+        >>> print(aa)
+        -1
+
+Upper and Lower
+
+    You can make a copy of a string in upper case or lower case.
+    Often, when comparing strings or searching in strings, it is useful to convert the strings to all lower or all upper case so that case isn't a factor in your comparison or search.
+
+
+Search and Replace
+
+    The replace() function is like a "search and replace" operation in a word processor.
+    It replaces all occurrences of the search string with the replacement string.
+
+        Example:
+            >>> greet = 'Hello Bob'
+            >>> nstr = greet.replace('Bob', 'Jane')
+            >>> print(nstr)
+            Hello Jane
+            >>> nstr = greet.replace('o', 'x')
+            >>> print(nstr)
+            Hellx Bxb
+            >>>
+
+
+Stripping Whitespace
+
+     Sometimes we want to take a string and remove the whitespace at the beginning and/or end.
+     lstrip() and rstrip() remove whitespace from the left or right ends (start or end) of the string.
+     strip() removes both beginning and ending whitespace.
+
+        >>> greet = '   Hello Bob      '
+        >>> greet.lstrip()
+        'Hello Bob      '
+        >>> greet.rstrip()
+        '   Hello Bob'
+        >>> greet.strip()
+        'Hello Bob'
+        >>>
+
+
+Prefixes
+
+    >>> line = 'Have a nice day'
+    >>> line.startswith('Have')
+    True
+    >>> line.startswith('h')
+    False
+
+
+Parsing and Extracting
+
+    Example of finding information within a string using slicing and searching.
+    The data used is from an email header.
+
+    >>> data = 'From stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008'
+    >>> atpos = data.find('@')
+    >>> print (atpos)
+    21
+    >>> sppos = data.find(' ', atpos)
+    >>> print(sppos)
+    31
+    >>> host = data[atpos+1 : sppos]
+    >>> print(host)
+    uct.ac.za
+    >>>
+
+    Note how the find for sppos uses the second parameter in the find() function to tell it where to start looking.
+    This makes it look for the first occurence of a space (' ') after the @ symbol.
+
+String Format
+
+    One important difference between Python 2 and Python 3 is that Python 3 stepped up to storing all strings in UNICODE, which means that they can use a wide set of characters.
+    The UNICODE type no longer exits in Python 3 since a UNICODE string is just a STR type.
