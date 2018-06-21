@@ -1,0 +1,110 @@
+# Week 3
+# Lecture 1
+
+# 7.1 - Files
+
+################################################################################
+
+
+Opening a File
+
+    Before we can read the contents of a file, we must first open it.
+    Opening is not the same as reading.  That is a separate step.
+
+
+Using open()
+
+    handle = open(filename,mode)
+    It returns a handle to use to manipulate the file.
+    The handle is not the data, but just a way to access and manipulate.
+    Filename is a string.
+    Mode is optional and should be 'r' is we are planning to read the file and 'w' if we are planning to write to the file.  Defaults to 'r'.
+
+
+What is a Handle?
+
+    >>> fhand = open('mbox.txt')
+    >>> print(fhand)
+    <_io.TextIOWrapper name='mbox.txt' mode='r' encoding='UTF-8'>
+
+    It is a connection to the file, but it is not the file.
+
+
+The newline Character
+
+    We use a special character called the "newline" to indicate when a line ends.
+    We represent it as \n in strings.
+    Even though it looks like two characters, it is only one.
+
+        Example:
+            >>> stuff = 'Hello\nWorld!'
+            >>> stuff
+            'Hello\nWorld!'
+            >>> print(stuff)
+            Hello
+            World!
+            >>> stuff = 'X\nY'
+            >>> print(stuff)
+            X
+            Y
+            >>> len(stuff)
+            3
+
+    A text file has "newlines" at the end of each line.
+    A blank line is simply just a "newline" immediately after the preceding "newline" that ended the line before it.
+    When you use the print() function, it automatically adds a "newline" to the end of your text, but there is a way to suppress that behavior.
+
+
+################################################################################
+
+# Lecture 2
+
+# 7.2 - Processing Files
+
+################################################################################
+
+
+File Handle as a Sequence
+
+    A file handle open for read can be treated as a sequence of strings where each line in the file is a string in the sequence.
+    We can use the for statement to iterate through a sequence.
+    Remember - a sequence is an ordered set.
+
+        Example:
+        Code:
+            xfile = open('mbox.txt')
+            for cheese in xfile :
+                print(cheese)
+
+        Output:
+            Blah blah blah 1
+            blah blah blah 2
+            ...
+            blah blha blah n
+
+    In the above example, the for loop will iterate through each line of text in the file that "xfile" references, assign that line to the counter variable "cheese" and then print "cheese", effectively printing each line of the file.
+
+
+Counting Lines in a File
+
+    fhand = open('mbox-short.txt')
+    count = 0
+    for line in fhand:
+    count = count + 1
+    print('Line Count:', count)
+
+
+Reading the *Whole* File
+
+    We can read the whole file (newlines and all) into a single string.
+
+        Example:
+
+        >>> fhand = open('mbox-short.txt')
+        >>> inp = fhand.read()
+        >>> print(len(inp))
+        94626
+        >>> print(inp[:20])
+        From stephen.marquar
+
+    # Time 3:58
