@@ -107,4 +107,83 @@ Reading the *Whole* File
         >>> print(inp[:20])
         From stephen.marquar
 
-    # Time 3:58
+
+Searching Through a File
+
+    Use an if statement within the for loop to filter out substrings that meet some criteria and store, count, print, or whatever you want to do with them.
+
+        Example:
+        Code:
+            fhand = open('mbox-short.txt')
+            count = 0
+            for line in fhand:
+                if line.startswith('From:'):
+                    print(line)
+
+        Output:
+            From: stephen.marquard@uct.ac.za
+
+            From: louis@media.berkeley.edu
+
+            From: zqian@umich.edu
+
+            From: rjlowe@iupui.edu
+            ...
+
+    If you print multiple lines from a file, you may see skipped lines between them.  This is because there is a newline in the string you're reading, and then print() appends a newline.
+    To avoid the skipped line, use the rstrip() method to delete the newline from the string prior to or when you pass is to the print() function.
+
+        Example:
+        Code:
+            fhand = open('mbox-short.txt')
+            for line in fhand:
+                line = line.rstrip()
+                if line.startswith('From:'):
+                    print(line)
+
+        Output:
+            From: stephen.marquard@uct.ac.za
+            From: louis@media.berkeley.edu
+            From: zqian@umich.edu
+            From: rjlowe@iupui.edu
+            From: zqian@umich.edu
+            From: rjlowe@iupui.edu
+            From: cwen@iupui.edu
+            ...
+
+
+Skipping with Continue
+
+    Rather than using an if statement to find what we are interested in, and the putting all of our processing into that if statement, you can use the if statement to determine if you're not interested in something, skip it with continue and then proceed through the rest of the for loop to process only the interesting lines.
+    This is mostly a stylistic point, but it can help compact your code by putting the bulk of it one indent level up than if it were all in an if statement.
+
+        Example:
+
+            fhand = open('mbox-short.txt')
+            for line in fhand:
+                line = line.rstrip()
+                # Skip 'uninteresting lines'
+                if not line.startswith('From:'):
+                    continue
+                # Process our 'interesting' line
+                print(line)
+
+
+User Input File Names
+
+    It's a good practice to put the open() function into a try block in case the user enters a bad file name.
+    The except block should include a quit() statement in addition to the error message so that the program doesn't continue down without a valid file handle defined and then traceback.
+
+        Example:
+
+            fname = input('Enter the file name: ')
+            try:
+                fhand = open(fname)
+            except:
+                print('File cannot be opened:', fname)
+                quit()
+            count = 0
+            for line in fhand:
+                if line.startswith('Subject:'):
+                    count = count + 1
+            print('There were', count, 'subject lines in', fname)

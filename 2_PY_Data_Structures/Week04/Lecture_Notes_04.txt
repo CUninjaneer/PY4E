@@ -1,0 +1,211 @@
+# Week 4
+# Lecture 1
+
+# 8.1 - Lists
+
+################################################################################
+
+
+Programming
+
+    Algoritms are sets of rules or steps to solve a problem .
+    Data Structures are particular ways of organizing data in a computer.
+
+
+What is Not a Collection?
+
+    A variable that holds a single value (like x = 5) is not a collection.
+    You cannot use x to hold multiple values.
+    You can replace the value of x with a new value but not add another one.
+
+
+A List is a Kind of Collection
+
+    A Collection allows us to put may values in a single "variable".
+    A Collection is nice because we can carry many values around in one convenient package.
+
+        friends = ['Joseph', 'Glenn', 'Sally']
+        carryon = ['socks', 'shirt', 'perfume']
+
+
+List Constants
+
+    List constants are surrounded by square brackets and the elements in the list are separated by commas.
+    A list element can be any Python object, even another list.
+    A list can consist of elements of different types (e.g. strings, integers, and floating point numbers all in the same list).
+    A list can be empty.
+
+        >>> cheeses = ['Cheddar', 'Edam', 'Gouda']
+        >>> numbers = [17, 123]
+        >>> mixed = ['Derp', 23, 26.5, [1,2,'three']]
+        >>> empty = []
+        >>> print(cheeses, numbers, mixed empty)
+        ['Cheddar', 'Edam', 'Gouda'] [17, 123] ['Derp', 23, 26.5, [1,2,'three']] []
+
+    Lists and Definite Loops are best friends, just like Mr. Miyagi and Chef Boyardee.
+
+
+Looking Inside Lists
+
+    Just like strings, we can get at any single element in a list using an index specified in square brackets.
+
+        >>> cheeses = ['Cheddar', 'Edam', 'Gouda']
+        >>> print(cheeses[1])
+        Cheddar
+
+
+Lists are Mutable
+
+    Strings are immutable - we cannot change the contents of a string.  We must make a new string with the changes instead.
+    Lists are mutable - we can change an element of a list using the assignment operator "=" and the index operator "[]".
+        aka lists support "item assignment"
+
+
+How Long is a List?
+
+        The len() of a list is the number of elements in the list.
+
+
+Using the Range Function
+
+    The range() function returns a list of numbers that range from zero to one-less-than-the-parameter.
+
+    >>> print(range(4))
+    [0, 1, 2, 3]
+
+    Note that there are 4 elements in the list, but since it starts with zero, it end with the aforementioned one-less-than-the-parameter value.
+
+    >>> friends = ['Joseph', 'Glenn', 'Sally']
+    >>> print(len(friends))
+    3
+    >>>  print(range(len(friends)))
+    [0, 1, 2]
+
+    We can construct an index loop using for and an integer iterator.
+
+        for i in range(len(friends))
+            friend = friends[i]
+            print('Happy New Year:', friend)
+
+    This can be useful because now i takes on the index value of each item in friends[:], which you can use to call the desired element, and it can also act as a counter variable without having to make a separate counter variable.
+
+
+################################################################################
+
+# Lecture 2
+
+# 8.2 - Manipulating Lists
+
+################################################################################
+
+
+List Operations
+
+    You can concatenate strings with "+" just like strings.
+    You can slice lists into "sublists" just like strings using ":" inside "[]".
+
+
+List Methods
+
+    http://docs.python.org/tutorial/datastructures.html
+    >>> x = list()
+    >>> type(x)
+    <class 'list'>
+    >>> dir(x)
+    ['__add__', '__class__', '__contains__', '__delattr__', '__delitem__', '__dir__'
+    , '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__'
+    , '__gt__', '__hash__', '__iadd__', '__imul__', '__init__', '__init_subclass__',
+    '__iter__', '__le__', '__len__', '__lt__', '__mul__', '__ne__', '__new__', '__r
+    educe__', '__reduce_ex__', '__repr__', '__reversed__', '__rmul__', '__setattr__'
+    , '__setitem__', '__sizeof__', '__str__', '__subclasshook__', 'append', 'clear',
+    'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort
+    ']
+    >>>
+
+
+Building a List from Scratch
+
+    We can create an empty list and then add elements using the append method.
+    The list stays in order and new elements are added to the end of the list.
+
+    >>> stuff = list()
+    >>> ffuts = []
+
+    The two lines of code above are equivalent.
+
+    >>> stuff.append('book')
+    >>> stuff.append(99)
+    >>> print(stuff)
+    ['book', 99]
+    >>> stuff.append('cookie')
+    >>> print(stuff)
+    ['book', 99, 'cookie']
+
+
+Lists are in order
+
+    A list can hold many items and keeps those items in order until we do something to change the order.
+    A list can be sorted (i.e. change its order).
+    The sort method (unlike in strings) means sort yourself.
+
+    >>> friends = ['Joseph', 'Glenn', 'Sally']
+    >>> friends.sort()
+    >>> print(friends)
+    ['Glenn', 'Joseph', 'Sally']
+    >>>
+
+    Note that since lists are mutable, sorting actually changes the list.
+    It's not just returning a sorted version of the list, it is sorting the list and changing the list itself.
+
+
+Built-In Functions and Lists
+    There are a number of functions built into Python that take lists as parameters.
+    Remember the loops we built?  These are much simpler.
+
+        >>> nums = [3, 41, 12, 9, 74, 15]
+        >>> print(len(nums))
+        6
+        >>> print(max(nums))
+        74
+        >>> print(min(nums))
+        3
+        >>> print(sum(nums))
+        154
+        >>> print(sum(nums)/len(nums))
+        25.6
+
+    The sum() function only works when the list elements are numbers.
+    The min() and max() function will work with lists of strings and other types that are comparable.
+    If you are taking user input for numerical data to perform sum(), min(), or max() on; make sure to convert it from a string to an int or float.
+    You can do this within a while loop to get an undefined number of values from a user and then calculate.
+
+        Example:
+            Code:
+
+            total = 0
+            count = 0
+            while (True):
+                inp = input('Enter a number: ')
+                if inp == 'done': break
+                value = float(inp)
+                total = total + value
+                count = count + 1
+
+            average = total / count
+            print('Average:', average)
+
+            Output:
+            Enter a number: 3
+            Enter a number: 9
+            Enter a number: 5
+            Enter a number: done
+            Average: 5.666666666666667
+
+
+################################################################################
+
+# Lecture 3
+
+# 8.3 - Lists and Strings
+
+################################################################################
