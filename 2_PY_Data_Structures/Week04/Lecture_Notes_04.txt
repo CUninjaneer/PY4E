@@ -8,7 +8,7 @@
 
 Programming
 
-    Algoritms are sets of rules or steps to solve a problem .
+    Algorithms are sets of rules or steps to solve a problem .
     Data Structures are particular ways of organizing data in a computer.
 
 
@@ -78,7 +78,7 @@ Using the Range Function
     >>> friends = ['Joseph', 'Glenn', 'Sally']
     >>> print(len(friends))
     3
-    >>>  print(range(len(friends)))
+    >>> print(range(len(friends)))
     [0, 1, 2]
 
     We can construct an index loop using for and an integer iterator.
@@ -159,6 +159,7 @@ Lists are in order
 
 
 Built-In Functions and Lists
+
     There are a number of functions built into Python that take lists as parameters.
     Remember the loops we built?  These are much simpler.
 
@@ -209,3 +210,52 @@ Built-In Functions and Lists
 # 8.3 - Lists and Strings
 
 ################################################################################
+
+
+Best Friends: Strings and Lists
+
+    The split() method breaks a string into parts and produces a list of strings.
+    When implemented as shown below with no parameters, it will break the string at each whitespace (multiple whitespaces in series are one break).
+    We can then access a particular word or loop through all of the words.
+
+    >>> abc = 'With three words'
+    >>> stuff = abc.split()
+    >>> print(stuff)
+    ['With', 'three', 'words']
+    >>> print(len(stuff))
+    3
+    >>> print(stuff[0])
+    With
+
+    Split() can also accept a parameter to specify the delimiter if you don't want to use the default whitespace delimiter.
+    Specify the delimiter as a string of 1 or more characters.
+
+        >>> line = 'A lot           of spaces'
+        >>> etc = line.split()
+        >>> print(etc)
+        ['A', 'lot', 'of', 'lines']
+        >>>
+        >>> line = 'first;second;third'
+        >>> thing = line.split()
+        >>> print(thing)
+        ['first;second;third']
+        >>> print(len(thing))
+        1
+        >>> thing = line.split(';')
+        >>> print(thing)
+        ['first', 'second', 'third']
+        >>> print(len(thing())
+        3
+        >>>
+
+
+The Double Split Pattern
+
+    >>> line = 'From stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008'
+    >>> words = line.split()
+    >>> email = words[1]
+    >>> email_pieces = email.split('@')
+    >>> domain = pieces[1]
+    >>> print(domain)
+
+    You can split a string one way, and then split it again another way to get at the data you want.

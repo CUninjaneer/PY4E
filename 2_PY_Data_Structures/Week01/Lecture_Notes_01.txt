@@ -97,7 +97,7 @@ Looping and Counting
 Looking Deeper into "in"
 
     The iteration variable iterates through the sequence (ordered set)
-    The block (bodY) of code is executed once for each value in the sequence.
+    The block (body) of code is executed once for each value in the sequence.
     The iteration variable moves through all of the values "in" the sequence.
 
 
