@@ -1,0 +1,223 @@
+################################################################################
+
+# Week 5
+# Lecture 1
+
+# 9.1 - Dictionaries
+
+################################################################################
+
+
+What is a Collection?
+
+    A collection is nice because we can put more than one value in and carry them all around in one convenient package.
+    We have a bunch of values in a single "variable".
+    We do this by having more than one place "in" the variable.
+    We have ways of finding the different places in the variable.
+    Lists were the first type of collection we learned about.
+    Dictionaries are the secnod type.
+    Lists and Dictionaries will be the main two types of collections we will use.
+
+
+Comparing Lists and Dictionaries
+
+    A list is a linear collection of values that stay in order.
+        Compare it to a can of Pringles with chips stacked in one neat column.
+    A dictionary is more like a bag of values.
+    Instead of a certain order, each value has a label used to locate it.
+        Compare it to a bag of chips with chips everywhere.
+
+
+Dictionaries
+
+    Dictionaries are Python's most powerful data collection.
+    Dictionaries allow us to do fast database-like operations in Python.
+    Dictionaries have different names in different programming languages.
+        Associative Arrays - Perl / PHP
+        Properties of Map of HashMap - Java
+        Property Bag - C# / .Net
+    Look at Wikipedia entry on Associative Arrays to see some more info on this type of structure in general.
+
+
+Dictionaries
+
+    Lists index their entries based on the position in the list.
+    Dictionaries have no order.
+    So we index things in the dictionary with a "lookup tag" (aka "key").
+
+        >>> purse = dict()
+        >>> purse['money'] = 12
+        >>> purse['candy'] = 3
+        >>> purse['tissues'] = 75
+        >>> print(purse)
+        {'money':12. 'tissues': 75, 'candy': 3}
+        >>> purse['candy'] = purse['candy'] + 2
+        >>> print(purse)
+        {'money':12. 'tissues': 75, 'candy': 5}
+
+
+################################################################################
+
+# Lecture 2
+
+# 9.2 - Counting with Dictionaries
+
+################################################################################
+
+Traceback Errors with Dictionaries
+
+    If you try to perform an operation (print(), increment the value, etc.) of a key that's not already in the dictionary, you'll get a traceback error.
+    You can use "in" the check is a key is in a dictionary.
+
+        >>> 'key' in dict1
+        False
+        >>> 'key2' in dict1
+        True
+
+
+Using a Loop to Build Your Counter Dictionary
+
+    Example:
+        word = 'brontosaurus'
+        d = dict()
+        for c in word:
+            if c not in d:
+                d[c] = 1
+            else:
+                d[c] = d[c] + 1
+        print(d)
+    Output:
+        {'b':1, 'r':2, 'o':2, 'n':1, 't':1, 's':2, 'a':1, 'u':2}
+
+    Check if a key is already in the dictionary, if not add it, if it is then increment it.
+
+
+The "get" Method for Dictionaries
+
+    The pattern of checking if a key is already in a dictionary is already in a dictionary and assuming a default value if the key is not there is so common that there is a dictionary method called get() that does this for us.
+    A big advantage is that this won't traceback if it doesn't exist because it has the default value to use.
+    You could write this:
+
+        if name in counts :
+            x = counts
+        else :
+            x = 0
+
+    But the get method let's you do it faster like this:
+
+        x = counts.get(name, 0)
+
+
+Simplified Counting with get()
+
+    Example:
+        word = 'brontosaurus'
+        d = dict()
+        for c in word:
+            d[c] = d.get(c,0) + 1
+        print(d)
+    Output:
+        {'b':1, 'r':2, 'o':2, 'n':1, 't':1, 's':2, 'a':1, 'u':2}
+
+
+################################################################################
+
+# Lecture 3
+
+# 9.3 - Dictionaries and Files
+
+################################################################################
+
+
+Counting Pattern - Line of Text
+
+    counts = dict()
+    print('Enter a line of text:')
+    line = input('')
+
+    words = line.split()
+
+    print('Words:', words)
+
+    print('Counting...')
+    for word in words :
+        counts[word] = counts.get(word,0) + 1
+    print('Counts', counts)
+
+    The general patter is to split a line into words, then loop through the words and add counts of them to a dictionary.
+    Note that the counts dictionary will print in unsorted hash order so it's not necessarily easy to see which one is the most frequent.
+
+
+Definite Loops and Dictionaries
+
+    Even though dictionaries are not stored in order, we can write a for loop that goes through all the entries in an dictionary.
+    Actually, it goes through all of the keys in the dictionary and looks up the values.
+
+        >>> counts = { 'chuck':1, 'fred':42, 'jan':100 }
+        >>> for key in counts :
+        ...     print(key, counts[key])
+        ...
+        jan 100
+        chuck 1
+        fred 42
+        >>>
+
+
+Retrieving lists of Keys and Values
+
+    You can get a list of keys, values, or items (both) form a dictionary.
+
+        >>> jjj = { 'chuck':1, 'fred':42, 'jan':100 }
+        >>> print(list(jjj))
+        ['jan', 'chuck', 'fred']
+        >>> print(jjj.keys())
+        ['jan', 'chuck', 'fred']
+        >>> print(jjj.values())
+        [100, 1, 42]
+        >>> print(jjj.items())
+        [('jan', 100), ('chuck', 1), ('fred', 42)]
+        >>>
+
+    Even though the order of dictionaries is unpredictable, the order is consistent between the lists of keys and values.
+    When we print using the items() method, it prints a list of tuples.
+    So the list is n elements long where n is the number of keys, and each element consists of a tuple with the key and value inside.
+    We'll learn more about tuples in the next chapter so don't worry about exactly what is tuple is just yet.
+
+
+Bonus: Two Iteration Variables!
+
+    We loop through the key-value pairs in a dictionary using *two* iteration variables in our loop.
+    Each iteration, the first variable is the key, and the second variable is the corresponding value for the key.
+
+        jjj = { 'chuck':1, 'fred':42, 'jan':100 }
+        for aaa,bbb in jjj.items() :
+            print(aaa, bbb)
+
+        jan 100
+        chuck 1
+        fred 42
+
+
+Bringing it All Together - Back to the Beginning Example
+
+    # gather the input for the file name and open the file
+    name = input('Enter file:')
+    handle = open(name)
+
+    # build the dictionary with words and their frequencies
+    counts = dict()
+    for line in handle :
+        words = line.split()
+        for word in words :
+            counts[word] = counts.get(word,0) + 1
+
+    # loop through dictionary to find the word with the max frequency
+    bigcount = None
+    bigword = None
+    for word,count in counts.items() :
+        if bigcount is None or count > bigcount :
+            bigword = word
+            bigcount = count
+
+    # print the results
+    print(bigword, bigcount)
