@@ -1,0 +1,146 @@
+################################################################################
+
+# Using Python to Access Web Data
+# Week 1
+# Lecture 1
+
+# 11.1 - Regular Expressions (regex)
+
+################################################################################
+
+
+Regular Expressions
+
+    In computing, a regular expression, also referred to as "regex" or "regexp", provides a concise and flexible means for matching strings of text, such as particular characters, words, or patterns of characters.
+    A regular expression is written in a formal language that can be interpreted by a regular expression processor.
+    See also http://en.wikipedia.org/wiki/Regular_expression.
+
+
+Regular Expressions
+
+    Really clever "wild card" expressions for matching and parsing strings.
+
+
+Understanding Regular Expressions
+
+    Very powerful and quite cryptic.
+    Fun once you understand them.
+    Regular Expressions are a language unto themselves.
+    A language of "marker characters" - programming with characters.
+    It is kind of an "old school" language - compact.
+
+
+Regular Expression Quick Guide
+
+    ^           Matches the beginning of the line.
+    $           Matches the end of the line.
+    .           Matches any character (a wildcard).
+    \s          Matches a whitespace character.
+    \S          Matches a non-whitespace character (opposite of \s).
+    *           Applies to the immediately preceding character and indicates to match zero or more of the preceding character(s).
+    *?          Applies to the immediately preceding character and indicates to match zero or more of the preceding character(s) in "non-greedy mode".
+    +           Applies to the immediately preceding character and indicates to match one or more of the preceding character(s).
+    +?          Applies to the immediately preceding character and indicates to match one or more of the preceding character(s) in "non-greedy mode".
+    [aeiou]     Matches a single character as long as that character is in the specified set. In this example, it would match "a", "e", "i", "o", or "u", but no other characters.
+    [a-z0-9]    You can specify ranges of characters using the minus sign. This example is a single character that must be a lowercase letter or a digit.
+    [^A-Za-z]   When the first character in the set notation is a caret, it inverts the logic. This example matches a single character that is anything other than an uppercase or lowercase letter.
+    ( )         When parentheses are added to a regular expression, they are ignored for the purpose of matching, but allow you to extract a particular subset of the matched string rather than the whole string when using findall().
+    \b          Matches the empty string, but only at the start or end of a word.
+    \B          Matches the empty string, but not at the start or end of a word.
+    \d          Matches any decimal digit; equivalent to the set [0-9].
+    \D          Matches any non-digit character; equivalent to the set [^0-9].
+
+    https://www.py4e.com/lectures3/Pythonlearn-11-Regex-Handout.txt
+
+
+The Regular Expression Module
+
+    Before you can use regular expressions in your program, you must import the library using "import re"
+    You can use re.search() to see if a string matches a regular expression, similar to using the find() method for strings.
+    You can use re.findall() to extract portions of a string that match your regular expression, similar to a combination of find() and slicing: var[5:10].
+
+
+Using re.search() Like find()
+
+    Conventional Python with find()
+
+        hand = open('mbox-short.txt')
+        for line in hand :
+            line = line.rstrip()
+            if line.find('From:') >= 0 :
+                print(line)
+
+    Now using re.search()
+
+        import re
+        hand = open('mbox-short.txt')
+        for line in hand :
+            line = line.rstrip()
+            if re.search('From:', line) :
+                print(line)
+
+
+Using re.search() Like startswith()
+
+    Conventional Python with find()
+
+        hand = open('mbox-short.txt')
+        for line in hand :
+            line = line.rstrip()
+            if line.startswith('From:') :
+                print(line)
+
+    Now using re.search()
+
+        import re
+        hand = open('mbox-short.txt')
+        for line in hand :
+            line = line.rstrip()
+            if re.search('^From:', line) :
+                print(line)
+
+Wild-Card Characters
+
+    The dot '.' character matches any character.
+    If you add the asterisk '*' character, the preceding character is searched for any number of times.
+    Hence you can search for a string that starts with some character, contains any number of other characters, and then ends with some character.
+
+        Example:
+
+        Using re.search(^X.*:) would find all strings that start with 'X' and end in ':' not matter what is between the 'X' and the ':'.
+        If you used this in m-box.txt, you could find results like...
+
+            X-Sieve:
+            X-DSPAM-Result:
+            X-DSPAM-Confidence:
+            X-Content-Type-Message-Body:
+
+
+Fine-Tuning Your Match
+
+    Depending on how "clean" your data is and the purpose of your application, you may want to narrow your match down a bit.
+
+        re.search(^X.*:)
+
+        X-Sieve: CMU Sieve 2.3
+        X-DSPAM-Result: Innocent
+        X-Plane is behind schedule: two weeks
+
+    Say we want to make sure that lines that aren't part of the email header like the X-Plane one are filtered out.
+    We can fine tune our search
+    If we use \S instead of . then we are searching for any non-whitespace character instead of just any character.
+    And if we use + instead of * then the "any non-whitespace" character must exist one or more times instead of zero or more times.
+
+        re.search(^X-\S+:)
+
+        X-Sieve: CMU Sieve 2.3
+        X-DSPAM-Result: Innocent
+
+
+################################################################################
+
+# Lecture 2
+
+# 11.2 - Extracting Data
+
+################################################################################
