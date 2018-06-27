@@ -82,17 +82,62 @@ Sorting Lists of tuples
 
 Sort by Values Instead of Key
 
-    If we could construct a list of tuples of the form (value, key), we could sort by value.
+    If we could construct a list of tuples in the form of of (value, key) instead of the default (key,value), we could sort by value.
     We do this with a for loop that creates a list of tuples.
 
         >>> c = {'a':10, 'b':1, 'c':22}
         >>> tmp = list()
         >>> for k, v in c.items() :
-        ...     tmp.append((v,k))
+        ...     tmp.append( (v, k) )
         ...
         >>> print(tmp)
-        [(10,'a'), (22, 'c'), (1, 'b')]
-        >>> tmp = sorted(tmp. reverse=True)
+        [(10,'a'), (22.'c'), (1,'b')]
+        >>> tmp = sorted(tmp, reverse=True)
         >>> print(tmp)
+        [(22,'c'), (10,'a'), (1,'b')]
 
-    # 9:43
+    Once you make the list of tuples in the preferred (value, key) order, you can use sorted() to sort them and see the largest or smallest value and the associated key.
+
+        Example:
+
+            fhand = open('romeo.txt')
+            counts = dict()
+            for line in fhand :
+                words = line.split()
+                for word in words :
+                    counts[word] = counts.get(word, 0) + 1
+
+            lst = list()
+                for key, val in counts.items() :
+                    newtup = (val, key)
+                    lst.append(newtup)
+
+            lst = sorted(lst, reverse = True)
+
+            for val, key in lst[:10] :
+                print(key, val)
+
+    The above code opens a file, reads it in line-by-line, and gets the frequency of each word and saves it in the dictionary "counts".
+    It then builds a list "lst" of the tuples from the dictionary, but it switches the order of the tuples to (value, key) as it does so.
+    The list is then sorted in reverse (largest to smallest).
+    It then prints the first 10 items in the list in key-value order, effectively giving a list of the 10 most frequent words along with their frequencies.
+
+
+Using List Comprehension to Shorten Code
+
+    The last 3 blocks of the code in the previous example can be condensed to one line.
+
+        lst = list()
+            for key, val in counts.items() :
+                newtup = (val, key)
+                lst.append(newtup)
+        lst = sorted(lst, reverse = True)
+        for val, key in lst[:10] :
+            print(key, val)
+
+        # Can be written as:
+
+        print( sorted( [ (v,k) for k,v in counts.items() ], reverse=True ) )
+
+    List comprehension creates a dynamic list.  In this case, we make a list of reversed tuples and then sort it.
+    See also http://wiki.python.org/moin/HowTo/Sorting
