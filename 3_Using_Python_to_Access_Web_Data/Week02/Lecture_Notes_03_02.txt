@@ -1,7 +1,7 @@
 ################################################################################
 
-# Using Python to Access Web Data
-# Week 1
+# Course 3: Using Python to Access Web Data
+# Week 2
 # Lecture 1
 
 # 11.1 - Regular Expressions (regex)
