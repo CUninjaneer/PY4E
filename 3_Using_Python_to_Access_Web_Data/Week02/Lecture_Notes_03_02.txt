@@ -14,6 +14,7 @@ Regular Expressions
     In computing, a regular expression, also referred to as "regex" or "regexp", provides a concise and flexible means for matching strings of text, such as particular characters, words, or patterns of characters.
     A regular expression is written in a formal language that can be interpreted by a regular expression processor.
     See also http://en.wikipedia.org/wiki/Regular_expression.
+    See also https://docs.python.org/3/howto/regex.html
 
 
 Regular Expressions
@@ -144,3 +145,153 @@ Fine-Tuning Your Match
 # 11.2 - Extracting Data
 
 ################################################################################
+
+
+Matching and Extracting Data
+
+    re.search() return a True/False depending on whether the string matches the regular expression.
+    If we actually want the matching strings to be extracted, we use re.findall()
+    Note that the regex below '[0-9]' means 'numeric digits' and the '+' means one or more of the preceding regex character.
+    So altogether it means that it is searching for one or more numeric digits.
+
+        >>> import re
+        >>> x = 'My 2 favorite numbers are 19 and 42'
+        >>> y = re.findall('[0-9]', x)
+        >>> print(y)
+        ['2', '19, '42']
+
+
+Matching and Extracting Data
+
+    When we use re.findall(), it returns a list of zero or more sub-strings that match the regular expression.
+    Note that the regex below '[AEIOU]' means upper case vowel.
+    So '[AEIOU]+' means one or more upper case vowel.
+
+        >>> import re
+        >>> x = 'My 2 favorite numbers are 19 and 42'
+        >>> y = re.findall('[0-9]', x)
+        >>> print(y)
+        ['2', '19, '42']
+        >>> y = re.findall('[AEIOU]+', x)
+        []
+
+    There are no upper case vowels in the string 'x' so re.findall() returns an empty list.
+
+
+Warning: Greedy Matching
+
+    The repeat characters ('*' and '+') push outward in both directions (greedy) to match the largest possible string.
+
+        >>> import re
+        >>> x = 'From: Using the : character'
+        >>> y = re.findall('^F.+:', x)
+        >>> print(y)
+        ['From: Using the :']
+
+    Since both 'From:' and "From: Using the :" both match the criteria, greedy matching will pick the latter because it is a larger string.
+
+
+Non-Greedy Matching
+
+    Not all regular expression repeat codes are greedy.
+    If you add a '?' to the '*' or '+', it tells them to chill out and not be greedy.
+    These non-greedy versions are just the inverse and will return the smallest string that matches the regex.
+
+        >>> import re
+        >>> x = 'From: Using the : character'
+        >>> y = re.findall('^F.+?:', x)
+        >>> print(y)
+        ['From:']
+
+
+Fine-Tuning String Extraction
+
+    You can refine the match for re.findall() and separately determine which portion of the match is to be extracted by using parentheses.
+
+        >>> x = 'From stephen.marquard.uct.ac.za Sat Jan 5 09:14:16 2008'
+        >>> y = re.findall('\S+@\S+', x)
+        >>> print(y)
+        ['stephen.marquard.uct.ac.za']
+
+    The regex '\S+@\S+' looks for one or more non-whitespace characters ('/S'), followed by the @ symbol, followed by one or more non-whitespace character ('\S').
+    Comparing this to our previous method using the split() method, this doesn't need to know the format of where the email address falls in each line.
+    It just finds all the matching strings, which will (most likely) be email addresses.
+
+
+Fine-Tuning String Extraction
+
+    Parentheses are not part of the match - but they tell where to start and stop what string to extract.
+
+        >>> x = 'From stephen.marquard.uct.ac.za Sat Jan 5 09:14:16 2008'
+        >>> y = re.findall('\S+@\S+', x)
+        >>> print(y)
+        ['stephen.marquard.uct.ac.za']
+        >>> x = 'From stephen.marquard.uct.ac.za Sat Jan 5 09:14:16 2008'
+        >>> y = re.findall('^From (\S+@\S+)', x)
+        >>> print(y)
+        ['stephen.marquard.uct.ac.za']
+
+    So this will match the whole string of 'From ' (with the space) followed by one or more non-whitespace characters followed by @ followed by one or more non-whitespace characters.
+    But it only extracts what's in the parentheses.
+    So this adds yet another level of fine tuning to make sure you are getting only the senders email addresses.
+
+
+Fine-Tuning String Extraction
+
+    String find method...kind of long
+
+        >>> data = 'From stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008'
+        >>> atpos = data.find('@')
+        >>> print (atpos)
+        21
+        >>> sppos = data.find(' ', atpos)
+        >>> print(sppos)
+        31
+        >>> host = data[atpos+1 : sppos]
+        >>> print(host)
+        uct.ac.za
+        >>>
+
+    The string double split method...a little better.
+
+        >>> line = 'From stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008'
+        >>> words = line.split()
+        >>> email = words[1]
+        >>> email_pieces = email.split('@')
+        >>> domain = pieces[1]
+        >>> print(domain)
+
+    The Regex version...nice and concise
+
+        >>> import re
+        >>> line = 'From stephen.marquard.uct.ac.za Sat Jan 5 09:14:16 2008'
+        >>> domain = re.findall('@([^ ]*)', line)
+        >>> print(domain)
+
+        Note the Regex above is looking for @ followed by many ('*') non-blank characters ('[^ ]').
+        The part with the brackets means the set of characters in the brackets.
+        Then the '^ ' means not blank.
+
+    The Even Cooler Regex Version
+
+        >>> import re
+        >>> line = 'From stephen.marquard.uct.ac.za Sat Jan 5 09:14:16 2008'
+        >>> domain = re.findall('^From .*@([^ ]*)', line)
+        >>> print(domain)
+
+        This will only find lines that start with 'From ' followed by some number of characters (i.e. the account), the @ symbol, and then extract the domain.
+        This makes sure you're just getting sender addresses contained in the From line.
+
+
+Escape Character
+
+    If you want a special regular expression character to just behave like a normal character (most of the time) you prefix it with '\'.
+    For example, if you want to find dollar signs ('$'), but '$' is used in Regex for matching at the end of a line, then you must use '\$' to say to look for a dollar sign.
+
+        >>> import re
+        >>> x = 'We just received $10.00 for cookies'
+        >>> y = re.findall('\$[0-9.]+', x)
+        >>> print(y)
+        ['$10.00']
+
+    So the regex means find a real dollar sign followed by one or more digits or periods.
