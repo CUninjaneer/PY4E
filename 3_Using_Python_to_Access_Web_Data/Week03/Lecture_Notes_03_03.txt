@@ -1,0 +1,162 @@
+################################################################################
+
+# Course 3: Using Python to Access Web Data
+# Week 3
+# Lecture 1
+
+# 12.1 Networked Technology
+
+################################################################################
+
+
+Transport Control Protocol
+
+    Built on top of IP (Internet Protocol)
+    Assumes IP might lose some data - store and retransmits data if it seems to be lost.
+    Handles "flow control" using a transmit window
+    Provides a nice reliable pipe
+    See also: http://en.wikipedia.org/wiki/Internet_Protocol_Suite
+    We will work in the transfer layer.
+
+
+TCP Connections / Sockets
+
+    In computer networking, an Internet socket or network socket is an endpoint of a bidirectional inter-process communication flow across an Internet Protocol-based computer network, such as the Internet.
+    See also: http://en.wikipedia.org/wiki/Internet_Socket
+
+
+TCP Port Numbers
+
+    A port is an application-specific or process-specific software communications endpoint.
+    You can think of it as the phone extension of a particular person after you call into the company's main number.
+    It allows multiple networked applications to coexist on the same server.
+    There is a list of well-known TCP port numbers.
+    See also: http://en.wikipedia.org/wiki/TCP_and_UDP_port
+    Port 80 is the one we will work on the most.
+
+
+Common TCP Ports
+
+    Telnet  (23)  - Login
+    SSH     (22)  - Secure Login
+    HTTP    (80)  -
+    HTTPS   (443) - Secure
+    SMTP    (25)  - Mail
+    IMAP    (143/220/993) - Mail Retrieval
+    POP     (109/110) - Mail Retrieval
+    DNS     (53) - Domain Name
+    FTP     (21) - File transfer
+
+    See also: http://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
+
+
+Sockets in Python
+
+    Python has built-in support for TCP Sockets
+
+        import socket
+        mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        mysock.connect( ('data.pre.org', 80) )
+
+    See also http://docs.python.org/library/socket.html
+
+
+################################################################################
+#
+# Lecture 2
+#
+# 12.2 - Hypertext Transfer Protocol (HTTP)
+#
+################################################################################
+
+
+Application Protocol
+
+    Since TCP (and Python) gives us a reliable socket, what do we want to do with the socket? What problem do we want to solve?
+    Application Protocols
+        Mail
+        World Wide Web
+    See also: http://en.wikipedia.org/wiki/Internet_Protocol_Suite
+
+
+HTTP - Hypertext Transfer Protocol
+
+    The dominant Application Layer Protocol on the Internet
+    Invented for the Web - to Retrieve HTML, Images, Documents, etc.
+    Extended to be data in addition to documents - RSS, Web Services, etc.
+    Basic Concept: Make Connection, Request a Document, Retrieve the Document, Close the Connection
+    See also: http://en.wikipedia.org/wiki/Http
+
+
+What is a Protocol?
+
+    A set of rules that all parties follow so we can predict each others behavior.
+    When we can predict what others will do, we can avoid bumping into each other.
+        Like in USA, drive on the RHS of the road.
+        But in UK, drive on LHS of road.
+    The rules can be fairly arbitrary, but what is important is that everyone follows them.
+
+
+Making an HTTP Request
+
+    Connect to the server like "www.dr-chuck.com"
+    Request a document (or the default document)
+        GET http://www.dr-chuck.com/page1.htm HTTP/1.0
+        GET http://www.mlive.com/ann-arbor/ HTTP/1.0
+        GET http://www.facebook.com HTTP/1.0
+
+
+Telnet
+
+    Telnet is a way of connecting to any server (in an unsecure manner) and sending things to it.
+    Mac and Linux have Telnet already installed.
+    If you like, you can open Telnet and connect to a web server that way.
+    For example:
+
+        $ telnet www.dr-chuck.com 80
+        Trying 74.208.28.177
+        Connected to www.dr-chuck.com.Escape character is '^]'.
+        GET http://www.dr-chuck.com/page1.htm HTTP/1.0
+
+        HTTP/1.1 200 OK
+        Date: Thu, 08 Jan 2015 01:57:52 GMT
+        Last-Modified: Sun, 19 Jan 2014 14:25:43 GMT
+        Connection: close
+        Content-Type: text/html
+
+        <h1>The First Page</h1>
+        <p>If you like, you can switch to the <a href="http://www.dr-chuck.com/page2.htm">Second Page</a>.</p>
+        Connection closed by foreign host.
+
+
+H4ck1ng
+
+    This is how real people hack into real computers.
+    They connect to them and send them stuff and try to get stuff back.
+    Accurate hacking in movies: http://nmap.org/movies.html
+
+
+An HTTP Request in Python
+
+    import socket
+
+    mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    mysock.connect( ('data.pre.org', 80) )
+    cmd = 'GET http://data.pr4e.org/romeo.txt HTTP/1.0\n\n'.encode()
+    mysock.send(cmd)
+
+    while True:
+        data = mysock.recv(512)
+        if (len(data) < 1):
+            break
+        print(data.decode())
+    mysock.close
+
+
+################################################################################
+#
+# Lecture 3
+#
+# Worked Example: Sockets (Chapter 12)
+#
+################################################################################
