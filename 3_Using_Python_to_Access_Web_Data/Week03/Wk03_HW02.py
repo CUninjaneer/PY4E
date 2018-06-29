@@ -4,60 +4,42 @@
 #
 # Problem Definition:
 #
-# Finding a Number in a Haystack
+# You are to retrieve the following document using the HTTP protocol in a way
+# that you can examine the HTTP Response headers.
 #
-# In this assignment you will read through and parse a file with text and
-# numbers. You will extract all the numbers in the file and compute the sum
-# of the numbers.
+#   http://data.pr4e.org/intro-short.txt
 #
-# Data Files
+# There are three ways that you might retrieve this web page and look at the
+# response headers:
+#   •   Preferred: Modify the socket1.py  program to retrieve the above URL
+#       and print out the headers and data. Make sure to change the code to
+#       retrieve the above URL - the values are different for each URL.
+#   •   Open the URL in a web browser with a developer console or FireBug and
+#       manually examine the headers that are returned.
+#   •   Use the telnet program as shown in lecture to retrieve the headers and
+#       content.
 #
-# We provide two files for this assignment. One is a sample file where we
-# give you the sum for your testing and the other is the actual data you need
-# to process for the assignment.
-#
-#   •   Sample data: http://py4e-data.dr-chuck.net/regex_sum_42.txt  (There
-#       are 90 values with a sum=445833)
-#   •   Actual data: http://py4e-data.dr-chuck.net/regex_sum_105080.txt 
-#       (There are 100 values and the sum ends with 162)
-#
-# Data Format
-#
-# The file contains much of the text from the introduction of the textbook
-# except that random numbers are inserted throughout the text.
-# The numbers can appear anywhere in the line. There can be any number of
-# numbers in each line (including none).
-#
-# Handling the Data
-#
-# The basic outline of this problem is to read the file, look for integers
-# using the re.findall(), looking for a regular expression of '[0-9]+' and
-# then converting the extracted strings to integers and summing up the
-# integers.
-#
-# Desired Output:
-#
-#   %a number ending in 162%
+# Enter the header values in each of the fields below and press "Submit".
+#   Last Modified
+#   ETag
+#   Content-Length
+#   Cache-Control
+#   Content-Type
 #
 #
 ################################################################################
 
-#fname = 'regex_sum_42.txt'
-fname = 'regex_sum_105080.txt'
-fhand = open(fname)
+import socket
 
-import re
+mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+mysock.connect(('data.pr4e.org', 80))
+cmd = 'GET http://data.pr4e.org/intro-short.txt HTTP/1.0\r\n\r\n'.encode()
+mysock.send(cmd)
 
-# initialize any empty list to collect numbers
-numbers = list()
-# parse inidividual lines
-for line in fhand :
-    x = re.findall('[0-9]+', line) # find groups of one or more digits
-    if len(x) < 1 : continue
-    for i in range(len(x)) : numbers.append(int(x[i])) # collect results in list
+while True:
+    data = mysock.recv(512)
+    if len(data) < 1:
+        break
+    print(data.decode(),end='')
 
-tot = 0
-for num in numbers : tot = tot + num # sum up elements of list 
-
-#print('There are', len(numbers), 'values with a sum of', tot)
-print(tot)
+mysock.close()

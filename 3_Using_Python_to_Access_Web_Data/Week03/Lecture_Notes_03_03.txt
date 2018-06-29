@@ -158,5 +158,14 @@ An HTTP Request in Python
 # Lecture 3
 #
 # Worked Example: Sockets (Chapter 12)
+# 12.1
 #
 ################################################################################
+
+
+Open, view, and run "socket1.py" from the Sample Code.
+
+
+Encode() and Decode()
+    The encode() method converts text characters from UNICODE to UTF-8, which is necessary for working with HTTP.
+    The decode() method does the opposite, which is to convert from UTF-8 to UNICODE text characters.
