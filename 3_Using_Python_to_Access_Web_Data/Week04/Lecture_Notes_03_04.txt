@@ -1,0 +1,50 @@
+################################################################################
+
+# Course 3: Using Python to Access Web Data
+# Week 3
+# Lecture 1
+
+# 12.3 Unicode Characters and Strings
+
+################################################################################
+
+
+Computers don't understand letters.  They understand 1 and 0.  They understand numbers.
+So to get a computer to understand letters, we store them as numbers and have a legend or mapping of numbers to letters.
+An example of this is the ASCII character set that used numbers 1-128 to store characters.  This worked, but it is a limited number of characters.
+When Dr. Chuck started out in programming, the character sets were so limited that they only had upper case characters.
+
+
+Python has a functions that will (for simple string (ASCII 1-256)) show you the number that represents a characters: ord().
+
+    >>> print(ord('H'))
+    72
+    >>> print(ord('e'))
+    101
+    >>> print(ord('\n'))
+    10
+    >>>
+
+These characters are each stored in 8 bits (1 byte) of memory.
+
+
+Later, in order to enable computers from different places that had been using different, incompatible character sets to talk to each other, a universal character set was developed that had room in it for millions of characters to encompass all languages and glyphs: Unicode
+The internet really spurred this on when computers from different countries needed to be able to talk to each other and exchange data.
+
+
+Multi-Byte Characters
+
+    There are several different versions of Unicode with different capabilities and restrictions.
+
+        UTF-8 : 1 to 4 bytes
+        UTF-16: Fixed Length - 2 bytes
+        UTF-32: Fixed Length - 4 bytes
+
+    UTF-8 offers some distinct advantages:
+        It is flexible in the amount of storage space it uses.  Can use 1 to 4 bytes depending on what is needed for a particular character.
+        It is upwards compatible with ASCII.
+        There exists automatic detection between ASCII and UTF-8.
+
+    As such, UTF-8 has become the most common encoding on the internet, and it is the recommended encoding for data to be exchanged between systems.
+
+# 8:09
