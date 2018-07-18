@@ -47,4 +47,129 @@ Multi-Byte Characters
 
     As such, UTF-8 has become the most common encoding on the internet, and it is the recommended encoding for data to be exchanged between systems.
 
-# 8:09
+
+In Python 3, all strings are Unicode.
+So there are also things called "byte strings" that you probably won't have to worry about but they do exist.
+
+
+Python Strings to Bytes
+
+    When we are working in Python just within our own computer, we don't generally have to worry about what encoding the character sets are in.  We just use strings and it just works.
+    When we talk to an external resource like a network socket, we send bytes, so we need to encode Python 3 strings into a given character encoding.
+    When we read data from an external resource, we must decode it based on the character set so it is properly represented in Python 3 as a string.
+
+        Example:
+
+            while True:
+                data = mysock.recv(512)
+                if len(data) < 1 :
+                mystring = data.decode()
+                print(mystring)
+
+    decode() assumes UTF-8 or ASCII by default, but if it's something else, you do have to pass parameters inside the parenthese to the function.
+    Almost everything will be UTF-8 or ASCII so usually you don't have to worry about that.
+    Lets you mix data from different sources to make strings in Python without having to worry about different character sets.
+
+
+################################################################################
+
+# Lecture 2
+
+# 12.4 - Retrieving Web Pages
+
+################################################################################
+
+
+Using urllib in Python
+
+    Since HTTP is so common, we have a library that does all the socket work for us and makes web pages look like a file.
+
+        Example:
+
+        import urllib.request, urllib.parse, urllib.error
+
+        fhand = urllib.request.urlopen('http://data.pr4e.org/romeo.txt')
+        for line in fhand:
+            print(line.decode().strip())
+
+        Output:
+
+        But soft what light through yonder window breaks
+        It is the east and Juliet is the sun
+        Arise fair sun and kill the envious moon
+        Who is already sick and pale with grief
+
+    Note that the headers aren't included as they had been before.
+    urlopen() doesn't display the headers by default, but they're still there and you can access them if you should desire.
+
+
+################################################################################
+
+# Lecture 3
+
+# Worked Example: Using urllib
+
+################################################################################
+
+
+See urllib1.py and urlwords.py
+The summary is that urllib lets us treat web pages like files, and that includes all the tricks we learned for parsing, counting, sorting, searching, and all those wonderful things.
+
+
+################################################################################
+
+# Lecture 4
+
+# Parsing Web Pages
+
+################################################################################
+
+
+What is Web Scraping?
+
+    When a program of script pretends to be a browser and retrieves web pages, looks at those web pages, extracts information, and then looks at more web pages.
+    Search engines scrape web pages - we call this "spidering the web" or "web crawling"
+    See also http://en.wikipedia.org/wiki/Web_scraping
+    See also http://en.wikipedia.org/wiki/Web_crawler
+
+
+Why Scrape?
+
+    Pull data - particularly social data - who links to who?
+    Get your own data back out of some system that has no "export capability".
+    Monitor a site for new information.
+    Spider the web to make a database for a search engine.
+
+
+Scraping Web Pages
+
+    There is some controversy about web page scraping and some sites are a bit snippy about it.
+    Republishing copyrighted information is not allowed.
+    Violating terms of service is not allowed.
+
+
+Parsing HTML
+
+    HTML tends to be an ugly, messy syntax
+    There is a lot of bad syntax out there, but our browsers actively work to remdiate the errors and show us the content anyway.
+    So if you try to scrape and then parse HTML, you will get frustrated in a hurry.
+    But wait, people have already realized this and built a library to help.
+
+
+Parsing HTML the Easy Way - Beautiful Soup
+
+    You could do string searches the hard way
+    Or you could use the free software library called BeautifulSoup from www.crummy.com
+    See https://www.crummy.com/software/BeautifulSoup
+
+
+################################################################################
+
+# Lecture 5
+
+# Worked Example: BeautifulSoup (Chapter12)
+
+# Installed BeautifulSoup4 via 'sudo pip install BeautifulSoup4'
+# Said install was successful, but cannot import the library interactively through the terminal so maybe it's still not quite right.
+
+################################################################################
