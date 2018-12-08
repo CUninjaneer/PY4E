@@ -6,7 +6,7 @@
 # and unzip it in the same directory as this file
 
 import urllib.request, urllib.parse, urllib.error
-import BeautifulSoup
+from bs4 import BeautifulSoup
 import ssl
 
 # Ignore SSL certificate errors
