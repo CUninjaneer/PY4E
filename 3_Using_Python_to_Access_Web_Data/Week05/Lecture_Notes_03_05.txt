@@ -1,0 +1,111 @@
+################################################################################
+
+# Course 3: Using Python to Access Web Data
+# Week 4
+# Lecture 1
+
+# 13.1 Data on the Web
+
+################################################################################
+
+Data on the Web
+
+    With the HTTP Request/Response well understood and well supported, there was a natural move toward exchanging data between programs using these protocols.
+    We needed to come up with an agreed way to represent data going between applications and across networks.
+    There are two commonly used formats: XML and JSON.
+
+Sending Data across the "Net"
+
+    The internet connects many disparate systems so while we may be using one type of software with its own data structures, formats, etc. to connect to the internet; that doesn't mean that the system on the other end of the connection is using the same software, data structures, formats, etc.
+    So over the years, people have decided to create what are "Wire Protocols" which are ways of organizing data for transfer across the internet.
+    Converting from the sending format to the wire protocol is called Serialization.
+    Converting from the wire protocol to the receiving format is Deserialization.
+
+################################################################################
+
+# Lecture 2
+
+# 13.2 eXtensible Markup Language (XML)
+
+################################################################################
+
+XML "Elements" (or Nodes)
+
+    A simplex element is the lowest order element with no children.
+    A complex element is a higher order element with child elements beneath it including the parent element and the child element(s).
+
+    Example:
+        <people>
+            <person>
+                <name>Chuck</name>
+                <phone>303 4456</phone>
+            </person>
+            <person>
+                <name>Noah</name>
+                <phone>622 7421</phone>
+            </person>
+        </people>
+
+    In the example above, the following would be a Simple Element:
+        <name>Chuck</name>
+    In the example above, the following would be a Complex Element:
+        <person>
+            <name>Chuck</name>
+            <phone>303 4456</phone>
+        </person>
+
+    The indentation is just for human legibility.  It is not necessary to XML and will not be interpreted differently than it would without the indents.
+
+eXtensible Markup Language
+
+    Primary purpose is the help information systems share structured data.
+    It started a simplified subset of the Standard Generalized Markup Language (SGML), and it is designed to be relatively human-legible.
+
+XML Basics
+
+    Start Tag           <person>
+    End Tag             </person>
+    Text Content        Chuck
+    Attribute           <phone type="intl">+1 734 303 4456</phone>
+                            type="intl" is the attribute above
+                            Attributes are alway defined on the start tag
+                            They are Key-Value pairs
+    Self Closing Tag    <email hide="yes"/>
+                                         ^note the slash at the end
+
+White Space
+
+    Line ends do not matter.
+    White space is generally discarded on text elements.
+        ^Professor's statement
+        This doesn't make sense with what he said that the text elements are the only place where the whitespace matters.
+    We indent of for ease of reading.
+
+XML Text and Attributes
+
+    Both text and attributes are children of their parent tag/node.
+
+XML as Paths
+
+    Example:
+        <a>
+            <b>X</b>
+            <c>
+                <d>Y</d>
+                <e>Z</e>
+            </c>
+        </a>
+
+    In the example above you can think of paths for the data as shown below:
+        /a/b    X
+        /a/c/d  Y
+        /a/c/e  Z
+
+
+################################################################################
+
+# Lecture 3
+
+# 13.3 XML Schema
+
+################################################################################
