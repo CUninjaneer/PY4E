@@ -109,3 +109,232 @@ XML as Paths
 # 13.3 XML Schema
 
 ################################################################################
+
+XML Schema
+
+    A contract to describe what is acceptable XML.
+    Expressed in terms of constraints on the structure and content of documents.
+    Often used to specify a "contract" between systems - "My system will only accept XML that conforms to this particular Schema"
+    If a particular piece of XML meets the specification of the Schema, it is said to "validate."
+    See also http://en.wikipedia.org/wiki/Xml_schema
+
+Example:
+
+    XML Document
+        <person>
+            <lastname>Severance</lastname>
+            <age>17</age>
+            <dateborn>2001-04-17</dateborn>
+        </person>
+
+    XML Schema Contract
+        <xs:complexType name="person">
+            <xs:sequence>
+                <xs:element name="lastname" type="xs:string"/>
+                <xs:element name="age" type="xs:integer"/>
+                <xs:element name="dateborn" type="xs:date"/>
+            </xs:sequence>
+        </xs:complexType>
+
+    And so this basically says the outer bit of this particular XML is expected to be a tag named person and that's what that's saying. Then what it says is within that there's going to be a sequence of tags, xs:sequence. And then we basically say oh, and there's going to be a tag called lastname and it's going to be a string. And then there's going to be a tag that's age and it's going to be integer. And there's going to be a tag called dateborn and that's going to be a date. And so we can sort of look at this and say outer one person, next one in name, age, that's a number, that's good, that's a string, that's good. That looks like a date, that's good. Check, check, check, check, check. This XML matches that contract and that's the idea.
+
+XML Schema Languages
+
+    There are many XML Schema languages out there.
+        Document Type Definition (DTD)
+            http://en.wikipedia.org/wiki/Document_Type_Definition
+        Standard Generalized Markup Language (ISO 8879:1986 SGML)
+            http://en.wikipedia.org/wiki/SGML
+        XML Schema from W3C (XSD)
+            http://en.wikipedia.org/wiki/XML_Schema_(W3C)
+            Note that W3C = World Wide Web Consortium
+    The most common one to encounter today is the last one, XSD.
+
+XSD Constraints
+
+    You can do more than just specify what data you're looking for in what format.
+    You can put other constraints on it such as making certain elements mandatory and others optional by putting constraints on the number of occurrences of a particular element.
+    Example:
+        <xs:element name="person">
+            <xs:complexType>
+                <xs:sequence>
+                    <xs:element name="full_name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="child_name" type="xs:string" minOccurs="0" maxOccurs="10"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:complexType>
+    I want there to be a thing called full_name, there's a sequence. So this is sequence, we can see that this is the sequence. And I want this to be minOccurs equals 1, maxOccurs equals 1. That basically means there's going to be one and exactly one. One and exactly one. MinOccurs if you have less than one, it's an error, if you have more than one, it's an error.
+    This one here, this tag. This one can happen 0 times up to 10. So that just means if there is somewhere between zero and ten of those tags between full_name and the end of person, we are happy with this.
+
+XSD Data Types
+
+    string:     abcd xyz                (John Smith)
+    date:       yyyy-mm-dd              (2019-02-10)
+    dateTime:   yyyy-mm-ddThh:mm:ssZ    (2018-02-10T16:20:03Z)
+    decimal:    0.000                   (3.1415)
+    integer:    000                     (34)
+
+    Note that for times, it is highly recommended to use UTC (Coordinated Universal Time), which is expressed in XML as "Z".  This avoids having to translate from one time zone to another a bunch of times within the code.  Instead just convert at the very end for the user's display.
+    See also http://en.wikipedia.org/wiki/ISO_8601
+    See also http://en.wikipedia.org/wiki/Coordinated_Universal_Time
+
+More XSD Constraints
+
+    You can also restrict the acceptable data to a predefined set of options.
+
+        <xs:element name="Country">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="FR"/>
+                    <xs:enumeration value="DE"/>
+                    <xs:enumeration value="ES"/>
+                    <xs:enumeration value="UK"/>
+                    <xs:enumeration value="US"/>
+                </xs:restriction>
+            </xs:simpeType>
+        </xs:element>
+
+    This tells us that there should be an element named "Country;" it must be a string; and it must have a value of FR, DE, ES, UK, or US. Other values would generate an error.
+
+    There are lots more like requiring attrubutes, setting occurences to unbounded number of occurences, and lots more things that we won't get into.  Just know that there are things called schemas and what they do.
+
+################################################################################
+
+# Lecture 4
+
+# 13.4 Parsing XML
+
+################################################################################
+
+Parsing XML
+
+    Example:
+        import xml.etree.ElementTree as ET
+        data = '''<person>
+            <name>Chuck</name>
+            <phone type="intl">
+                +1 743 303 4456
+            </phone>
+            <email hide="yes"/>
+        </person>'''
+
+        tree = ET.fromstring(data)
+        print('Name:',tree.find('name').text)
+        print('Attr:',tree.find('email').get('hide'))
+
+    >>> Name: Chuck
+    >>> Attr: yes
+
+    Note that the first line of code with the "import" statement uses a technique called aliasing.  The library xml.etree.ElementTree is imported in and given the alias "ET."  This just makes it easier to utilize that library's methods.
+
+Parsing XML
+
+    Example:
+        import xml.etree.ElementTree as ET
+
+        input = '''
+        <stuff>
+            <users>
+                <user x="2">
+                    <id>001</id>
+                    <name>Chuck</name>
+                </user>
+                <user x="7">
+                    <id>009</id>
+                    <name>Brent</name>
+                </user>
+            </users>
+        </stuff>'''
+
+        stuff = ET.fromstring(input)
+        lst = stuff.findall('users/user')
+        print('User count:', len(lst))
+
+        for item in lst:
+            print('Name', item.find('name').text)
+            print('Id', item.find('id').text)
+            print('Attribute', item.get("x"))
+
+        >>> Name Chuck
+        Id 001
+        Attribute 2
+        >>> Name Brent
+        Id 009
+        Attribute 7
+
+    So, when we run the line of code with the findall method, it searches for all of the "user" tags below "users" (users/user).
+    What it returns is not just a user x value, but actually the whole tag with all of its attributes, values, and chile elements.
+    So the list "lst" returned by findall isn't just a list of simple values, but it's more of a list of trees with all of the user tag data.
+    In the example, there are two items in the list "lst" so the for loop is going to run twice.
+
+################################################################################
+
+# Worked Example
+
+# xml1.py
+# xml2.py
+
+################################################################################
+
+xml1.py
+
+    Code:
+
+        import xml.etree.ElementTree as ET
+
+        data = '''
+        <person>
+          <name>Chuck</name>
+          <phone type="intl">
+             +1 734 303 4456
+           </phone>
+           <email hide="yes"/>
+        </person>'''
+
+        tree = ET.fromstring(data)
+        print('Name:', tree.find('name').text)
+        print('Attr:', tree.find('email').get('hide'))
+
+    Output:
+
+        Name: Chuck
+        Attr: yes
+
+xml2.py
+
+    Code:
+
+        import xml.etree.ElementTree as ET
+
+        input = '''
+        <stuff>
+            <users>
+                <user x="2">
+                    <id>001</id>
+                    <name>Chuck</name>
+                </user>
+                <user x="7">
+                    <id>009</id>
+                    <name>Brent</name>
+                </user>
+            </users>
+        </stuff>'''
+
+        stuff = ET.fromstring(input)
+        lst = stuff.findall('users/user')
+        print('User count:', len(lst))
+
+        for item in lst:
+            print('Name', item.find('name').text)
+            print('Id', item.find('id').text)
+            print('Attribute', item.get("x"))
+
+    Output:
+
+        User count: 2
+        Name Chuck
+        Id 001
+        Attribute 2
+        Name Brent
+        Id 009
+        Attribute 7
