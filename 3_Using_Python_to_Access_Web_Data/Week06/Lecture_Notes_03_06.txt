@@ -1,9 +1,51 @@
 ################################################################################
 
 # Course 3: Using Python to Access Web Data
-# Week 6
+# Week 6 - JSON and the REST Architecture
 # Lecture 1
 
-# 00.0 Description
+# 13.5 JavaScript Object Notation (JSON)
 
 ################################################################################
+
+JavaScript Object Notation
+
+    Douglas Crockford - "Discoveror" of JSON
+    Object literal notation in JavaScript
+    http://www.youtube.com/watch?v=kc8BAR7SHJI
+        Discovered in 2001.
+        It already existed, but he noticed it's potential for use in serializing data.
+        Born from JavaScript, but he thought it could be and should be an independent language or specification.
+        He found that he would have to convince people that JSON was a standard in order to be able to use it in his work.  So he bought JSON.org, and made a web page declaring JSON was a standard, put some description of what it is, and that worked.
+        JSON is static and permanent.  There are no different versions.
+
+JavaScript Object Notation
+
+    JSON represents data as nested "lists" and "dictionaries."
+
+    Example:
+        import json
+
+        data = '''
+        {
+          "name" : "Chuck",
+          "phone" : {
+            "type" : "intl",
+            "number" : "+1 734 303 4456"
+           },
+           "email" : {
+             "hide" : "yes"
+           }
+        }'''
+
+        info = json.loads(data)
+        print('Name:', info["name"])
+        print('Hide:', info["email"]["hide"])
+
+    Note the use of the curly braces and key-value pairs.  This is very similar to a Dictionary in Python, but JavaScript calls it an Object.
+    Use the json.loads method to take that JSON data and put it into a Python Dictionary that you can work with ("info" in the example above).
+    To get something at the top level of the dictionary, it's just dictionary[key].
+    To drill down, it's dictionary[key][key]...
+                        |______ ______|
+                               V
+                               This returns a subdictionary.  Then you call the key you want or continue drilling down in this manner as far as necessary.
