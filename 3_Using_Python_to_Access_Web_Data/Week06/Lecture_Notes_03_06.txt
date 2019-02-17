@@ -49,3 +49,165 @@ JavaScript Object Notation
                         |______ ______|
                                V
                                This returns a subdictionary.  Then you call the key you want or continue drilling down in this manner as far as necessary.
+
+Next up is the Service Oriented Approach (http://en.wikipedia.com/wiki/Service-oriented_architecture)
+
+################################################################################
+
+# Lecture 2
+
+# Worked Example: JSON (Chapter 13)
+# json1.py
+
+################################################################################
+
+First script being discussed (json1.py):
+
+    import json
+
+    data = '''
+    {
+      "name" : "Chuck",
+      "phone" : {
+        "type" : "intl",
+        "number" : "+1 734 303 4456"
+       },
+       "email" : {
+         "hide" : "yes"
+       }
+    }'''
+
+    info = json.loads(data)
+    print('Name:', info["name"])
+    print('Hide:', info["email"]["hide"])
+
+Blah blah blah...pretty much same as the end of the previous lecture
+
+Next script being discussed (json2.py):
+
+    import json
+
+    data = '''
+    [
+      { "id" : "001",
+        "x" : "2",
+        "name" : "Chuck"
+      } ,
+      { "id" : "009",
+        "x" : "7",
+        "name" : "Chuck"
+      }
+    ]'''
+
+    info = json.loads(data)
+    print('User count:', len(info))
+
+    for item in info:
+        print('Name', item['name'])
+        print('Id', item['id'])
+        print('Attribute', item['x'])
+
+In the above example, the JSON is used to construct a Python List instead of a Python Dictionary as in json1.py.
+
+################################################################################
+
+# Lecture 3
+
+# Douglas Crockford Interview
+    # I covered during Lecture 1
+
+################################################################################
+
+See lecture 1
+
+################################################################################
+
+# Lecture 4
+
+# 13.6 Service Oriented Approach
+
+################################################################################
+
+Service Oriented Approach
+
+    Most non-trivial web applications use services
+    They use services from other applications.
+    For example Airline Reservation system uses:
+        Services from credit card and other payment entities
+        Services from hotel and car rental services to provide optional add-ons
+    Services publish the "rules" applications must follow to make use of the service.
+        API: Application Programming Interface
+
+Multiple Systems
+
+    Initially - two systems cooperate and split the problem.
+    As the data/service becomes useful - multiple applications want to use the information/application.
+    See http://www.youtube.com/watch?v=mj-kCFzF0ME.
+        Service layer is a translator that sits between data sources and sinks, and translates data between the formats specific to a particular source/sink to a standard interchange format (e.g. JSON, XML, etc.).
+
+################################################################################
+
+# Lecture 5
+
+# JISC Service Layer Video
+    # I covered during Lecture 4
+
+################################################################################
+
+See lecture 4 above.
+
+################################################################################
+
+# Lecture 6
+
+# 13.7 Using Application Programming Interfaces
+
+################################################################################
+
+See http://en.wikipedia.org/wiki/API
+
+Using APIs
+
+    Example code (geojson.py):
+
+    Lots of talking but I can't follow along because of API Key issue.
+
+################################################################################
+
+# Lecture 7
+
+# Worked Example: GeoJSon API
+
+################################################################################
+
+Cannot follow along due to API Key issue
+
+################################################################################
+
+# Lecture 8
+
+# 13.8 Securing API Requests
+
+################################################################################
+
+API Security and Rate Limiting
+
+    The compute resources to run these APIs are not free.
+    The data provided by there APIs is usually valuable.
+    The data providers might limit the number of requests per day, demand and API "key", or even charge for usage.
+    They might change the rules as things progress...
+
+Twitter API
+
+    It's more complicated than Google Geocoding API.
+    Twitter requires authentication and authorization, and it rate limits you to a prett low number (around 15 per day versus 2500 for Google).
+    If you use Dr. Chuck's twurl.py code that he created, you have to log in and get your own OAuth data, and copy paste it into "def oauth()" inside of hidden.py.
+
+################################################################################
+
+# Lecture 9
+
+# Worked Example: Twitter API (Chapter 13)
+# twitter1.py, twitter2.py
+
+################################################################################
