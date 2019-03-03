@@ -1,0 +1,255 @@
+################################################################################
+
+# Course 4: Using Databases with Python
+# Week 1
+# Lecture 1
+
+# Welcome to Using Databases with Python
+
+################################################################################
+
+
+A bunch of intro stuff.
+We're gonna learn us some SQL (Structured Query Language)
+
+
+################################################################################
+
+# Lecture 2
+
+# 12.3 - ASCII, Encoding, Decoding, etc.
+
+################################################################################
+
+
+This is an exact copy and rehash of the lecture that covered chapter 12.3.
+Skip.
+
+
+################################################################################
+
+# Lecture 3
+
+# 14.1 - Object Oriented Definitions and Terminology
+
+################################################################################
+
+
+Let's Start with Programs
+
+    Example Program:
+        inp = input('Europe floor?')
+        usf = int(inp) + 1
+        print('US floor', usf)
+    This program has Input→Process→Output.
+    That is inside the program.  From the outside, to a user it just looks like
+        Europe floor? 2
+        US floor 3
+
+Object Oriented
+
+    A program is made up of many cooperating objects.
+    Instead of bring the "whole program" - each object is a little "island" within the program and cooperatively working with the other objects.
+    A program is made up of one or more objects working together - objects make use of each other's capabilities.
+
+Object
+
+    An object is a bit of self-contained Code and Data.
+    A key aspect of the Object approach is to break the problem into smaller understandable parts (divide and conquer).
+    Objects have boundaries that allow us to ignore un-needed detail.
+    We have been using objects all along: String Objects, Integer Objects, Dictionary Objects, List Objects...
+
+Definitions
+
+    Class................a template...........................cookie cutter
+    Method or Message....a defined capability of a Class
+    Field or Attribute...a bit of data in a Class
+    Object or Instance...a particular Instance of a Class.....cookie
+
+Terminology: Class
+
+    Defines the abstract characteristics of a thing (object), including the things characteristics (its attributes, fields, or properties) and the things behaviors (the things it can do; or methods, operations, or features).
+    One might say that a class is a blueprint or factory that describes the nature of something.
+    For example, the class Dog would consist of traits shared by all dogs, such as breed or fur color (characteristics (attributes)), and the ability to bark or sit (behaviors (methods)).
+
+Terminology: Instance
+
+    One can have an instance of a class, or a particular object.
+    The instance is the actual object created at runtime.
+    In programmer jargon, the Lassie object is an instance of the Dog class.
+    The set of values of the attributes of a particular object is called its "state."
+    The object consists of state and the behavior that's defined in the object's class.
+    "Object" and "Instance" are often used interchangeably.
+
+Terminology: Method
+
+    An object's abilities.
+    In language, methods are verbs.
+    Lassie, being a Dog, has the ability to bark.
+    So bark() is one of Lassie's methods.
+    She may have other methods as well, for example sit() or eat() or walk() or save_timmy().
+    Within the program, using a method usually affects only one particular object; all Dogs can bark, but you need only one partuclar dog to do the barking.
+    "Method" and "Message" are often used interchangeably.
+
+
+################################################################################
+
+# Lecture 4
+
+# 14.2 - Our First Class and Object
+
+################################################################################
+
+
+Example Class
+
+    class PartyAnimal:
+        x = 0
+
+        def party(self):
+            self.x = self.x + 1
+            print("So far", self.x)
+
+    This defines a class named "PartyAnimal" with a method called "party".
+    Note that "class" is a reserved word.
+    Now let's use it.
+
+    ## create a PartyAnimal object and store in variable "an"
+    an = PartyAnimal()
+    ## tell the "an" instance of PartyAnimal to run the party() method
+    an.party()
+    an.party()
+    an.party()
+    ## note that this can be achieved with "PartyAnimal.party(an)" as well
+
+    When you run the above, the output is:
+        So far 1
+        So far 2
+        So far 3
+
+
+################################################################################
+
+# Lecture 5
+
+# 14.3 - Object Life Cycle
+
+################################################################################
+
+
+Object Life Cycle
+
+    Objects are created, used, and discarded.
+    We have special blocks of code (methods) that get called:
+        At the moment of creation (constructor)
+        At the moment of destruction (destructor)
+    Constructors are used a lot.
+    Destructors are seldom used.
+    There are special costructor and destructor methods  in the classes.
+
+    class PartyAnimal:
+        x = 0
+
+        def __init__(self):
+            print('I am constructed')
+
+        def party(self):
+            self.x = self.x + 1
+            print("So far", self.x)
+
+        def __del__(self):
+            print('I am destructed', self.x)
+
+    party4.py
+        an = PartyAnimal()
+        an.party()
+        an.party()
+        an = 42
+        print('an contains',an)
+
+    $ python.py
+    I am constructed
+    So far 1
+    So far 2
+    I am destructed 2
+    an contains 42
+
+Many Instances
+
+    We can create lots of objects - the class is the template for the object
+    We can store each distinct object in its own variable
+    We call this having multiple instances of the same class
+    Each instance has its own copy of the instance variables
+
+    party5.py
+        class PartyAnimal:
+           x = 0
+           name = ''
+           def __init__(self, nam):
+             self.name = nam
+             print(self.name,'constructed')
+
+           def party(self) :
+             self.x = self.x + 1
+             print(self.name,'party count',self.x)
+
+        s = PartyAnimal('Sally')
+        j = PartyAnimal('Jim')
+
+        s.party()
+        j.party()
+        s.party()
+
+    $ party5.py
+    Sally constructed
+    Jim constructed
+    Sally party count 1
+    Jim party count 1
+    Sally party count 2
+
+
+################################################################################
+
+# Lecture 6
+
+# 14.4 - Object Inheritance
+
+################################################################################
+
+
+Inheritance
+
+    When we make a new class, we can reuse an existing class and inherit all the capabilities of that existing class, and then add our own little bit of new capabilities to make our new class.
+    Another form of store and reuse.
+    Write once - reuse many times
+    The new class (child) has all of the capabilities of the old class (parent) and then some more.
+
+Example:
+
+    class PartyAnimal:
+        x = 0
+        name = ''
+        def __init__(self, nam):
+          self.name = nam
+          print(self.name,'constructed')
+
+        def party(self) :
+          self.x = self.x + 1
+          print(self.name,'party count',self.x)
+
+    class FootballFan(PartyAnimal):
+        points = 0
+        def touchdown(self):
+            self.points = self.points + 7
+            self.party()
+            print(self.name,"points",self.points)
+
+    s = PartyAnimal("Sally")
+    s.party()
+
+    j = FootballFan("Jim")
+    j.party()
+    j.touchdown()
+
+    So FootballFan is a class which extends PartyAnimal.
+    It has all the capabilities of PartyAnimal and more.
