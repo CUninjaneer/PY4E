@@ -1,0 +1,242 @@
+################################################################################
+
+# Course 4: Using Databases with Python
+# Week 2
+# Lecture 1
+
+# 15.1 - Relational Databases
+
+################################################################################
+
+
+Relational Databases
+
+    Relational databases model data by storing rows and columns in tables.
+    The power of the relational database lies in its ability to efficiently retrieve data from those tables, in particular where there are multiple tables and the relationships between those tables involved in the query.
+    See also http://en.wikipedia.org/wiki/Relational_database
+    Databases are underpinned by some pretty powerful mathematics, which is visible in some of the jargon.
+
+Terminology
+
+    Database...........................contains many tables
+    Relation (or table)................contains tuples and attributes
+    Tuple (or row).....................a set of fields that generally represents an "object" like a person or music track
+    Attribute (also column or field)...one of possibly many elements of data corresponding to the object represented by the row
+
+Databases (from Wikipedia)
+
+    Databases model data at the "connection point" or how it is related to the other data in the database.
+    A relation (table) is a set of tuples (rows) that have the same attributes (columns).  Not that their attributes have the same values, but that they have the same types of attributes.
+    A tuple (row) usually represents an object and information about that object.
+    Objects are typically physical objects or concepts.
+    A relation (table) is usually described as a table which is organized into rows and columns.
+    All the data referenced by an attribute are in the same domain and conform to the same constraints.
+
+SQL
+
+    Structured Query Language (SQL) is the language we use to issue commands to the database.
+    It is an abstraction layer (or interface layer or even API) that hides the complexity of a database and interacting with a database.
+    It allows us to:
+        C   Create a table              C
+        R   Retrieve some data          R
+        U   Update (or insert) data     U
+        D   Delete data                 D
+    It is a Service in a Service Oriented Architecture.
+    SQL is the standard that was developed and agreed upon that the different companies would use so that applications can work across different databases from different vendors.
+    The drawback to SQL and databases relies on the data being properly input, formatted, and structured.  It doesn't do a good job of handling "ugly" data.
+    That's where the combination of Python and SQL is powerful.  SQL makes it possible to store and access data rapidly while Python helps handle the contingencies of ugly data.
+
+
+################################################################################
+
+# Lecture 2
+
+# 15.2 - Using Databases
+
+################################################################################
+
+
+Two Roles in Large Projects
+
+    Application Developer - Builds the logic for the application, the look and feel of the application - monitors the application for problems
+    Database Administrator - Monitors and adjusts the database as the program runs in production
+    Often both people participate in the building of the "Data Model"
+    Developer often is not allowed to access the actual database to avoid damaging the database.  They only are allowed to interact through an abstraction layer that prevents unapproved actions.
+
+Database Administrator (DBA)
+
+    A database administrator (DBA) is a person responsible for the design, implementation, maintenance, and repair of an organization's database.
+    The role includes the development and design of database strategies, monitoring and improving database performance and capacity, and planning for future expansion requirements.
+    They may also plan, coordinate, and implement security measures to safeguard the database.
+
+Database Model
+
+    A Database Model of Database Schema is the structure or format of a database, described in a formal language supported by the database management system.
+    In other words, a "database model" is the application of a data model when used in conjunction with a database management system.
+    See also: http://en.wikipedia.org/wiki/Database_model
+
+Common Database Systems
+
+    Three major Database Management Systems in wide use:
+        Oracle - Large, commercial, enterprise-scale, very very tweakable
+        MySql - Simpler but very fast and scalable - commercial open source
+        SqlServer - Very nice - from Microsoft (also Access)
+    Many other smaller projects, free and open source
+        HSQL, SQLite, Postgress,...
+
+
+################################################################################
+
+# Lecture 2
+
+# 15.2 - Using Databases
+
+################################################################################
+
+
+SQLite Browser
+
+    SQLite is a very popular database - it is free and fast and small
+    SQLite Browser allows us to directly manipulate SQLite files
+        http://sqlitebrowser.org/
+    There is also a Firefox plugin (maybe Chrome too) to manipulate SQLite databases
+        https://addons.mozilla.org/en-US/firefox/addons/sqlite-manager/
+    SQLite is embedded in Python and a number of other languages
+
+
+################################################################################
+
+# Lecture 3
+
+# 15.3 - Single Table CRUD
+
+################################################################################
+
+
+Start Simple - A Single Table
+
+    Use the SQL commands below to create a table with two columns (attributes) of name and email.  The attributes accept the VARCHAR data type with up to 128 characters.
+
+        CREATE TABLE Users(
+            name VARCHAR(128),
+            email VARCHAR(128)
+        )
+
+SQL Insert
+
+    Type in some data.  Click "New Record" to create a new row, then type in a name and email address.
+    We can also add data through SQL commands rather than the GUI.  Try the code below to add a new record.
+
+        INSERT INTO Users(name,email) VALUES("Kristin","kf@umich.edu")
+
+SQL Delete
+
+    Deletes a row in a table based on a selection criteria.
+
+        DELETE FROM Users WHERE email='fred@umich.edu'
+
+SQL Update
+
+    Allows the updating of a field with a WHERE clause.
+
+        UPDATE Users SET name='Charles' WHERE email='csev@umich.edu'
+
+Retrieving Records: Select
+
+    The select statement retrieves a group of records - you can either retrieve all the records or a subset of the records with a WHERE clause.
+
+        SELECT * FROM Users
+
+        SELECT * FROM Users WHERE email='csev@umich.edu'
+
+Sorting with ORDER BY
+
+    You can add an ORDER BY clause to SELECT statements to get the results sorted in ascending or descending order of an attribute (column).
+
+        SELECT * FROM Users ORDER BY email
+
+        SELECT * FROM Users ORDER BY name
+
+
+################################################################################
+
+# Lecture 4
+
+# Worked Example - Counting Email in  Database
+# emaildb.py
+
+################################################################################
+
+
+Sample Code - emaildb.py
+
+    Comments added during lecture to enahnce understanding and recall
+
+    import sqlite3
+
+    conn = sqlite3.connect('emaildb.sqlite')    # connect to DB
+                                                # will make new if none exists
+    cur = conn.cursor()     # variable acts as handle to database
+
+    cur.execute('DROP TABLE IF EXISTS Counts')  # delete table and start fresh
+
+    cur.execute('''
+    CREATE TABLE Counts (email TEXT, count INTEGER)''') # create counts table
+
+    fname = input('Enter file name: ')
+    if (len(fname) < 1): fname = 'mbox-short.txt'
+    fh = open(fname)
+    for line in fh:
+        if not line.startswith('From: '): continue
+        pieces = line.split()
+        email = pieces[1]
+            # Select the count from the row with the email attribute (column)
+                # that matches the email just pulled from the source data.
+            # The ? is a placeholder that is replaced with the values in the
+                # tuple that follows after the comma.
+            # That ? strategy is used to avoid HTML injection.
+        cur.execute('SELECT count FROM Counts WHERE email = ? ', (email,))
+            # Fetch the row with the selected count and store in variable "row"
+            # Dr. Chuck said "fetchone" only grabs the first row, but I'm not
+                # sure what that means since I would think there is only one
+                # row. Maybe that applies in other, more complicated situations.
+        row = cur.fetchone()
+            # Time to increment the count.
+            # If this is the first time we've seen this email address, then
+                # row will be none and we have to insert a new row for the email
+                # and set the count to 1.
+            # If we have seen this email before, then we will increment the
+                # count up by 1.
+            # Note that we will use UPDATE and increment the count in one
+                # command rather than retrieving the count value into a local
+                # variable, incrementing it, and returning it to the DB.
+            # This avoids issues that can arise when you have multiple
+                # applications accessing the same database and potentially
+                # editing that row between your read and write commands.
+            # Doing the increment inside of UPDATE avoids that by doing it in
+                # one command.
+        if row is None:
+            cur.execute('''INSERT INTO Counts (email, count)
+                    VALUES (?, 1)''', (email,))
+        else:
+            cur.execute('UPDATE Counts SET count = count + 1 WHERE email = ?',
+                        (email,))
+            # The conn.commit() forces all data currently being held in memory
+                # to be written to disk.
+            # You don't have to commit with every loop. Commits take time.
+            # You could commit every 10th or 100th loop.  Whatever suits the
+                # needs of your application and database.
+            # If you are working with an online application, you need to commit
+                # at the end of every "screen ping"
+        conn.commit()
+
+    # https://www.sqlite.org/lang_select.html
+    # Sort the database to get the top 10 emails by count
+    sqlstr = 'SELECT email, count FROM Counts ORDER BY count DESC LIMIT 10'
+
+    # print results
+    for row in cur.execute(sqlstr):
+        print(str(row[0]), row[1])
+
+    # close connection to database
+    cur.close()
