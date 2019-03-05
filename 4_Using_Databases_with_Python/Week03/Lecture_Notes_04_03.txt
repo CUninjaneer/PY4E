@@ -1,0 +1,54 @@
+################################################################################
+
+# Course 4: Using Databases with Python
+# Week 3
+# Lecture 1
+
+# 15.4 - Designing a Data Model
+
+################################################################################
+
+
+Database Design
+
+    Database design is an art form of its own with particular skills and experience.
+    Our goal is to avoid the really bad mistakes and design clean and easily understood databases.
+    Others may performance tune things later.
+    Database design starts with a picture...the schema.
+
+Building a Data Model
+
+    Drawing a picture of the data objects for our application and then figuring out how to represent the objects and their relationships.
+    Basic Rule: Don't put the same string data in twice! Use a relationship instead.
+    When there is one thing in the "real world" there should be one copy of that thing in the database.
+    Model the real world.
+
+Example
+
+    For our example, we are going to pretend we are a business that wants to make an application to manage music, and we are focused on the idea of people wanting to buy individual tracks of music instead of whole albums.
+    We could give it a snazzy name like uTones or something like that, but it doesn't really matter.
+    So when we lay out a list of music we see immediately there's a lot of replication.
+    Each Track has a unique name (mostly), but other things like Album, Artist, Genre, Rating, etc. have a lot of repetition.
+    So how to we design our data model...
+
+    Where to begin?
+    Do we start our model at the...
+        Album, Artist, Genre, Length, Rating, Play Count, or Track?
+    Where should we start building?
+    Let's start with the thing that is most essential, most important to the project.
+
+    For this project, that's a Track.
+    So what of the above items are attributes of a Track, and which are other than or separate from a track?
+    Track: Length, Play Count, Rating
+        Those items are specific to a track and not shared with any other track or entity.
+        That's our first table.
+
+    So then, what is our next level up in the hierarchy?  Album, Artist, or Genre?
+    Generally, Tracks belong to Albums.  So our next table will be Albums.
+
+    Then next will be Artist, which has Albums, which have Tracks.
+
+    But what about Genre?
+    Does Genre belong to Track, or Artist, or Album?  Do any of those things belong to Genre?
+    Since an artist or an album could have different genres of music they create, we don't want to make Genre and attribute of those items because then we have to pick just one genre for a whole album or even all of the songs an artist makes (Corey Taylor, Hootie, etc. anybody?).
+    So we decide that Genre should be an attribute of Track, put in the Track table, and everybody is happy.
