@@ -33,13 +33,13 @@ Example
 
     Where to begin?
     Do we start our model at the...
-        Album, Artist, Genre, Length, Rating, Play Count, or Track?
+        Album, Artist, Genre, Length, Rating, Play Count, Title, or Track?
     Where should we start building?
     Let's start with the thing that is most essential, most important to the project.
 
     For this project, that's a Track.
     So what of the above items are attributes of a Track, and which are other than or separate from a track?
-    Track: Length, Play Count, Rating
+    Track: Title, Length, Play Count, Rating
         Those items are specific to a track and not shared with any other track or entity.
         That's our first table.
 
@@ -52,3 +52,133 @@ Example
     Does Genre belong to Track, or Artist, or Album?  Do any of those things belong to Genre?
     Since an artist or an album could have different genres of music they create, we don't want to make Genre and attribute of those items because then we have to pick just one genre for a whole album or even all of the songs an artist makes (Corey Taylor, Hootie, etc. anybody?).
     So we decide that Genre should be an attribute of Track, put in the Track table, and everybody is happy.
+
+
+################################################################################
+
+# Lecture 2
+
+# 15.5 - Representing the Data Model in Tables
+
+################################################################################
+
+
+Setting Up Your Tables
+
+    When you create a table, each row needs a unique ID number, which we refer to as a key.
+    There are different types of keys:
+        Primary Key
+        Logical Key
+        Foreign Key
+    So let's think about the items that we need to have in our Track Table
+
+        Track Table
+            id          # Primary Key
+            title       # Logical Key
+            rating
+            length
+            count
+            album_id    # Foreign Key --| # foreign key is beginning of arrow
+            genre_id    # Foreign Key   |
+                                        | # same id, but different key type
+                                        | # according to context
+        Album Table                     |
+            id          # Primary Key <-| # primary key is end of arrow
+            title       # Logical Key
+            artist_id   # Foreign Key --|
+                                        |
+        Artist                          |
+            id          # Primary Key <-|
+            name        # Logical Key
+
+    The Primary Key is the unique identifier for an object (row).
+    A Foreign Key is a reference to an id of another object in another table.
+    The Logical Key is identifier that we might use to look up an object from the outside world (because we are humans and don't think in terms of Primary key ID numbers).
+        Logical Keys are things you might use in a Where clause.
+    The naming convention for Foreign Keys is arbitrary.  Just make sure there is an understandable, logical convention and follow it.
+
+Putting Those Tables in your SQL Database
+
+    So now that we've planned everything out, let's put it into SQL.
+    What follows below are the snippets of SQL that were used to create the tables in our database.
+    We'll start from the ends of our arrows (our outside of the tree) and move to the start of the arrows (or trunk of the tree).
+
+    Artist
+
+        CREATE TABLE "Artist" (
+            "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            "name"	TEXT
+        );
+
+    Genre
+
+        CREATE TABLE "Genre" (
+        	"id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+        	"name"	TEXT
+        );
+
+    Album
+
+        CREATE TABLE "Album" (
+        	"id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+        	"artist_id"	INTEGER,
+        	"title"	TEXT
+        );
+
+    Track
+
+        CREATE TABLE "Track" (
+        	"id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+        	"album_id"	INTEGER,
+        	"genre_id" INTEGER,
+        	"title"	TEXT,
+        	"len" INTEGER,
+        	"rating" INTEGER,
+        	"count"	INTEGER
+        );
+
+
+################################################################################
+
+# Lecture 3
+
+# 15.6 - Inserting Relational Data
+
+################################################################################
+
+
+Inserting Relational Data
+
+    Alright, we have our tables set up.  Now let's put some data in them.
+    We'll start from the outside in, just like making the tables.
+
+    Insert some Artist data
+
+        INSERT INTO Artist(name) VALUES ("Led Zepplin");
+        INSERT INTO Artist(name) VALUES ("AC/DC")
+
+    Insert some Genre data
+
+        INSERT INTO Genre(name) VALUES ("Rock");
+        INSERT INTO Genre(name) VALUES ("Metal")
+
+    Insert some Album Data
+
+        INSERT INTO Album(title,artist_id) VALUES ('Who Made Who',2);
+        INSERT INTO Album(title,artist_id) VALUES ('IV',1)
+
+    Insert some Track Data
+
+        INSERT INTO Track (title,rating,len,count,album_id,genre_id) values ('Black Dog', 5, 297, 0, 2, 1);
+        INSERT INTO Track (title,rating,len,count,album_id,genre_id) values ('Stairway', 5, 482, 0, 2, 1);
+        INSERT INTO Track (title,rating,len,count,album_id,genre_id) values ('About to Rock', 5, 313, 0, 1, 2);
+        INSERT INTO Track (title,rating,len,count,album_id,genre_id) values ('Who Made Who', 5, 207, 0, 1, 2)
+
+
+################################################################################
+
+# Lecture 4
+
+# 15.7 - Reconstructing Data with JOIN
+
+################################################################################
