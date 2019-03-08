@@ -1,0 +1,49 @@
+################################################################################
+
+# Course 4: Using Databases with Python
+# Week 4
+# Lecture 1
+
+# 15.8 - Many-to-Many Relationships
+
+################################################################################
+
+
+One-to-Many
+
+    This is the only type of relationship we've dealt with so far.
+    For example, an album has many tracks, but the tracks belong to just one album.
+    See also https://en.wikipedia.org/wiki/One-to-many_(data_model).
+    Another example, would be Biological Mother and Children.  A Biological Mother may have many Children, but each Child has only one Biological Mother, not many.
+
+        |------------|              /|----------|
+        | Biological |---------------|          |
+        |   Mother   |              \| Children |
+        |------------|               |----------|
+
+    This is my derpy "Crow's Foot" diagram that shows a one-to-many relationship.
+
+Many-to-Many
+
+    Sometimes we need to model a relationship that is many-to-many.
+    For examples, Authors and Books.  An Author can write many Books, and a Book can have multiple Authors.
+
+        |---------|\               /|---------|
+        |  Books  |-----------------| Authors |
+        |---------|/               \|---------|
+
+    We need to add a "connection" table with two foreign keys.
+    There is usually no separate primary key.
+
+                                Author-Book
+                              Junction Table
+
+    |---------|                /|---------|
+    |  Books  |-----------------| Authors |
+    |---------|                \|---------|\                |---------|
+                                |  Books  |-----------------| Authors |
+                                |---------|/                |---------|
+
+    This strategy breaks the many-to-many relationship into two one-to-many relationships, which we already know how to model.
+
+    Another example is Coursera Courses and Users.  Each Course has many Users, and Users can take more than one Course.  To model this, we can insert a membership table between the Courses and the Users.
