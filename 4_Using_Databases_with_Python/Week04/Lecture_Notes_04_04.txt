@@ -47,3 +47,70 @@ Many-to-Many
     This strategy breaks the many-to-many relationship into two one-to-many relationships, which we already know how to model.
 
     Another example is Coursera Courses and Users.  Each Course has many Users, and Users can take more than one Course.  To model this, we can insert a membership table between the Courses and the Users.
+    The membership connector table has all the combinations of user_id and course_id.
+    So each of those combinations is unique, and each one of those combinations is used as a primary key.
+
+        CREATE TABLE User (
+            id      INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            name    TEXT,
+            email   TEXT
+        )
+
+        CREATE TABLE Course (
+            id      INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            title   TEXT
+        )
+
+        CREATE TABLE Member (
+            user_id     INTEGER,
+            course_id   INTEGER,
+                role        INTEGER,
+            PRIMARY KEY (user_id, course_id)
+        )
+
+    Now let's insert some data into our database.
+
+        INSERT INTO User (name, email) VALUES ('Jane','jane@tsugi.org');
+        INSERT INTO User (name, email) VALUES ('Ed','ed@tsugi.org');
+        INSERT INTO User (name, email) VALUES ('Sue','sue@tsugi.org');
+
+        INSERT INTO Course (title) VALUES ('Python');
+        INSERT INTO Course (title) VALUES ('SQL');
+        INSERT INTO Course (title) VALUES ('PHP');
+
+    Now let's put some data into the membership table.
+
+        INSERT INTO Member (user_id, course_id, role) VALUES (1, 1, 1);
+        INSERT INTO Member (user_id, course_id, role) VALUES (2, 1, 0);
+        INSERT INTO Member (user_id, course_id, role) VALUES (3, 1, 0);
+
+        INSERT INTO Member (user_id, course_id, role) VALUES (1, 2, 0);
+        INSERT INTO Member (user_id, course_id, role) VALUES (2, 2, 1);
+
+        INSERT INTO Member (user_id, course_id, role) VALUES (2, 3, 1);
+        INSERT INTO Member (user_id, course_id, role) VALUES (3, 3, 0);
+
+    Now our database has many-to-many relationships saved into it.
+    That will let us JOIN the tables and extract the info we are looking for.
+
+        SELECT User.name, Member.role, Course.title
+        FROM User JOIN Member JOIN Course
+        ON Member.user_id = User.id AND Member.course_id = Course.id
+        ORDER BY Course.title, Member.role DESC, User.name
+
+    Now we can see how these are used.
+
+Other SQL Topics Not Covered or Covered in Depth
+
+    Indexes         -   logical keys and lookups
+    Constraints     -   like our NOT NULL that we used, but there are others
+    Transactions    -   a way of making actions contingent on other actions
+
+
+################################################################################
+
+# Lecture 2
+
+# Worked Example - Roster.py
+
+################################################################################
