@@ -1,0 +1,71 @@
+################################################################################
+
+# Course 4: Using Databases with Python
+# Week 5
+# Lecture 1
+
+# 16.1 - Geocoding
+
+################################################################################
+
+
+Multi-Step Data Analysis
+
+    Now we are going to combine the skills we learned in the earlier classes to do bigger things with several moving parts.
+
+
+                                                       |-->Visualize
+    Data Source--|Gather|-->Database--|Clean/Process|--|
+      (Web)       (Long)                               |-->Analyze
+
+
+    You want to keep the gathering step simple with no data analysis.  Compartmentalize the analysis and gathering away from each other.
+    We write the data to the database as we go rather than storing in Python data structures so that if something goes awry and the python program crashes, we don't lose all the data.
+    Databases are good at letting us pick up where we left off whether that's restarting after a crash or just periodically updating our data from the source.
+    Then we'll run another program to clean and process the data and handle any "ugliness" in the data.
+    From there, you can go straight into visualization and/or analysis, but you may also choose to write another database in between.  That would be a "clean data" database or a "pretty" data database.
+
+Data Mining
+
+    What we are doing is an intro or preparation for data mining, but it isn't really data mining.
+    If you are interested in data mining, check out:
+        https://hadoop.apache.org
+        http://spark.apache.org
+        https://aws.amazon.com/redshift
+        http://community.pentaho.com
+    What we are doing is what Dr. Chuck calls "Personal Data Mining"
+    The goal is to make us better programmers, not to make us data mining experts.
+
+GeoData
+    See: http://www.pythonlearn.com/code/geodata.zip
+    Makes a Google Map from user entered data.
+    Uses the Google Geodata API.
+    Caches data in a database to avoid rate limiting and allow restarting.
+    Visualized in a browser using the Google Maps API.
+
+               | where.data|
+                      |
+                      V
+    |Google |-->|geoload.py|-->|geodata.sqlite|
+    |Geodata|                          |
+                                       V
+                            |--|geodump.py|--|      |where.html|
+                            |                |            |
+                            V                V            V
+                    |text output|      |where.js|-->|Google Map|
+
+
+################################################################################
+
+# Lecture 2
+
+# 16.2 - Geocoding Visualization
+
+################################################################################
+
+
+Multi-Step Data Analysis
+
+    See "chart" from end of prior lecture.
+
+Actually this whole thing was nearly the same if not exactly the same as the previous lecture.
